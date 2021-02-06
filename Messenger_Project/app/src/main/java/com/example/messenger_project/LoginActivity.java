@@ -4,8 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button LoginBtn, PhoneLoginBtn;
     private EditText UserEmail, UserPassword;
     private TextView NeedNewAccount, ForgetPassword;
+    private CheckBox ShowPassword;
 
-    private FirebaseUser currentUser;
     private FirebaseAuth MyAuth;
     private ProgressDialog LoggedBar;
 
@@ -36,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         MyAuth = FirebaseAuth.getInstance();
-        currentUser = MyAuth.getCurrentUser();
 
         InitializeField();
 
@@ -54,6 +57,14 @@ public class LoginActivity extends AppCompatActivity {
                 AllowUserToLogin();
             }
         });
+
+        ShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) UserPassword.setTransformationMethod(new HideReturnsTransformationMethod());
+                else UserPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }
+        });
     }
 
     private void AllowUserToLogin()
@@ -64,11 +75,6 @@ public class LoginActivity extends AppCompatActivity {
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) ) Toast.makeText(this, "Please enter Email and Password", Toast.LENGTH_SHORT).show();
         else
         {
-            /*LoggedBar.setTitle("Sign in");
-            LoggedBar.setMessage("Please Wait");
-            LoggedBar.setCanceledOnTouchOutside(true);
-            LoggedBar.show();*/
-
 
             //установка введенного логина и пароля в учетную запись файрбэйз
             MyAuth.signInWithEmailAndPassword(email, password)
@@ -79,19 +85,19 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 Toast.makeText(LoginActivity.this, "Logged in Successful!", Toast.LENGTH_LONG);
-                                /*LoggedBar.dismiss();*/
                                 SendUserToMainActivity();
                             }
                             else
                             {
                                 String message = task.getException().toString();
                                 Toast.makeText(LoginActivity.this, "Error" + message, Toast.LENGTH_LONG);
-                               /* LoggedBar.dismiss();*/
                             }
                         }
                     });
         }
     }
+
+
 
 
     private void InitializeField() //Функция инициализирует все поля в активити для входа
@@ -101,19 +107,10 @@ public class LoginActivity extends AppCompatActivity {
 
         UserEmail = findViewById(R.id.login_email);
         UserPassword = findViewById(R.id.login_password);
+        ShowPassword = findViewById(R.id.ShowLoginPassword);
 
         NeedNewAccount = findViewById(R.id.need_new_account);
         ForgetPassword = findViewById(R.id.forget_password_link);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if(currentUser != null)
-        {
-            SendUserToMainActivity();
-        }
     }
 
     private void SendUserToMainActivity()

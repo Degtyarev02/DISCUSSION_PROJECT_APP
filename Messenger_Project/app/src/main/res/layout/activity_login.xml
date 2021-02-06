@@ -30,35 +30,39 @@
                 android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/login_image"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/login_image"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/inputs"
+                android:drawableLeft="@drawable/envelope"
+                android:drawablePadding="5dp"
                 android:hint="Email..."
                 android:inputType="textEmailAddress"
-                android:background="@drawable/inputs"
                 android:padding="10dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:drawableLeft="@drawable/envelope"
-                android:drawablePadding="5dp"/>
+                android:textColorHighlight="#FFEB3B"
+                android:textColorLink="#FFC107" />
 
             <EditText
                 android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/login_email"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/login_email"
-                android:hint="Password..."
-                android:inputType = "textPassword"
-                android:background="@drawable/inputs"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="25dp"
+                android:background="@drawable/inputs"
                 android:drawableLeft="@drawable/padlock"
-                android:drawablePadding="3dp"/>
+                android:drawablePadding="3dp"
+                android:hint="Password..."
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColorHighlight="#FFEB3B"
+                android:textColorLink="#FFC107" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -77,8 +81,11 @@
                 android:layout_height="18dp"
                 android:layout_below="@+id/login_password"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="25dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="25dp" />
+                android:buttonTint="@color/DarkGray"
+                android:checked="false"
+                android:textColorHighlight="#FFFFFF" />
 
             <TextView
                 android:id="@+id/forget_password_link"
