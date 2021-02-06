@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -35,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+
+
         RegisterInitialize();
 
         HaveAccount.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
             progressBar.setCanceledOnTouchOutside(true);
             progressBar.show();
 
+
+            //установка введенного логина и пароля в учетную запись файрбэйз
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
