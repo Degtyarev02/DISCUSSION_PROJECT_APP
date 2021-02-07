@@ -16,7 +16,7 @@
         app:civ_border_width="5dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"/>
+        android:layout_marginTop="25dp"/>
 
     <EditText
         android:id="@+id/set_username"
@@ -28,7 +28,7 @@
         android:background="@drawable/inputs"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:drawableLeft="@drawable/user"
         android:drawablePadding="5dp"
         android:padding="10dp"
