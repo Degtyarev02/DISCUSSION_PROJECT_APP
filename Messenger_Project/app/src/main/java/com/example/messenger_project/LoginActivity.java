@@ -35,7 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog LoggedBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -115,8 +116,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void SendUserToMainActivity()
     {
-        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class );
-        startActivity(loginIntent);
+        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class );
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainIntent);
+        finish();
     }
 
     private void SendUserToRegisterActivity()
