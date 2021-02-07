@@ -7,8 +7,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 public class RegisterActivity extends AppCompatActivity {
 
     private Button RegisterBtn;
-    private EditText NewEmail, NewPassword;
+    private EditText NewEmail, NewPassword, ConfirmPassword;
     private TextView HaveAccount;
+    private CheckBox ShowRegisterPassword;
 
     private FirebaseAuth mAuth;
     private DatabaseReference RootReference;
@@ -45,12 +50,21 @@ public class RegisterActivity extends AppCompatActivity {
 
         RegisterInitialize();
 
+        ShowRegisterPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {NewPassword.setTransformationMethod(new HideReturnsTransformationMethod()); ConfirmPassword.setTransformationMethod(new HideReturnsTransformationMethod());}
+                else {NewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance()); ConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());}
+            }
+        });
+
         HaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                  SendUserToLoginActivity();
             }
         });
+
         RegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,11 +77,18 @@ public class RegisterActivity extends AppCompatActivity {
     {
         String email = NewEmail.getText().toString();
         String password = NewPassword.getText().toString();
+        String ConfPas = ConfirmPassword.getText().toString();
 
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) )
         {
             Toast.makeText(this, "Please enter Email and Password", Toast.LENGTH_SHORT).show();
         }
+
+        else if(!password.equals(ConfPas))
+        {
+            Toast.makeText(this, "Passwords are not equals", Toast.LENGTH_SHORT).show();
+        }
+
         else
         {
             progressBar.setTitle("Creating new account");
@@ -107,7 +128,9 @@ public class RegisterActivity extends AppCompatActivity {
         RegisterBtn = findViewById(R.id.register_button);
         NewEmail = findViewById(R.id.register_email);
         NewPassword = findViewById(R.id.register_password);
+        ConfirmPassword = findViewById(R.id.confirm_register_password);
         HaveAccount = findViewById(R.id.already_have_account);
+        ShowRegisterPassword = findViewById(R.id.Show_Register_Password);
         progressBar = new ProgressDialog(this);
 
     }
