@@ -4,17 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.EventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,18 +33,20 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private DatabaseReference RootRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
         mToolBar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolBar);
-        getSupportActionBar().setTitle("MyMessenger");
+        getSupportActionBar().setTitle("Discussion");
 
         mViewPager = findViewById(R.id.main_tabs_pager);
         mTabsAccAdapter = new TabsAccessorAdapter(getSupportFragmentManager());
@@ -55,8 +65,28 @@ public class MainActivity extends AppCompatActivity {
         {
            SendUserToLoginActivity();
         }
+        else
+        {
+            VerifyExistenceUser();
+        }
     }
 
+    private void VerifyExistenceUser()
+    {
+        String currentUserID = mAuth.getCurrentUser().getUid();
+        RootRef.child("Users").child(currentUserID)
+                .addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {if(!(snapshot.child("name").exists())) SendUserToSettingsActivity();}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+
+            }
+        });
+    }
 
 
     @Override
@@ -88,12 +118,16 @@ public class MainActivity extends AppCompatActivity {
     private void SendUserToLoginActivity()
     {
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class );
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
+        finish();
     }
 
     private void SendUserToSettingsActivity()
     {
         Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class );
+        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(settingsIntent);
+        finish();
     }
 }
