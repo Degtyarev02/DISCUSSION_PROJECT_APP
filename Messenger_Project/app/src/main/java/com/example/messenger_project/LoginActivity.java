@@ -26,9 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button LoginBtn, PhoneLoginBtn;
+    private Button LoginBtn, PhoneLoginBtn, NeedNewAccount;
     private EditText UserEmail, UserPassword;
-    private TextView NeedNewAccount, ForgetPassword;
+    private TextView ForgetPassword;
     private CheckBox ShowPassword;
 
     private FirebaseAuth MyAuth;
@@ -59,13 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        ShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) UserPassword.setTransformationMethod(new HideReturnsTransformationMethod());
-                else UserPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            }
-        });
     }
 
     private void AllowUserToLogin()
@@ -104,11 +97,10 @@ public class LoginActivity extends AppCompatActivity {
     private void InitializeField() //Функция инициализирует все поля в активити для входа
     {
         LoginBtn = findViewById(R.id.login_button);
-        PhoneLoginBtn = findViewById(R.id.phone_login_button);
+//        PhoneLoginBtn = findViewById(R.id.phone_login_button);
 
         UserEmail = findViewById(R.id.login_email);
         UserPassword = findViewById(R.id.login_password);
-        ShowPassword = findViewById(R.id.ShowLoginPassword);
 
         NeedNewAccount = findViewById(R.id.need_new_account);
         ForgetPassword = findViewById(R.id.forget_password_link);

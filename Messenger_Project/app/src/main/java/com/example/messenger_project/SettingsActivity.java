@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,7 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private EditText UserName, UserStatus;
     private Button UpdateInfo;
-    private CircleImageView UserIcon;
+    private ImageView UserIcon;
 
     private FirebaseAuth mAuth;
     private String currentUserId;

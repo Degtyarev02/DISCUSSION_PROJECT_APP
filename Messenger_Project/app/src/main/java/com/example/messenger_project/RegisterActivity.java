@@ -27,10 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private Button RegisterBtn;
+    private Button RegisterBtn, HaveAccount;
     private EditText NewEmail, NewPassword, ConfirmPassword;
-    private TextView HaveAccount;
-    private CheckBox ShowRegisterPassword;
 
     private FirebaseAuth mAuth;
     private DatabaseReference RootReference;
@@ -50,13 +48,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         RegisterInitialize();
 
-        ShowRegisterPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {NewPassword.setTransformationMethod(new HideReturnsTransformationMethod()); ConfirmPassword.setTransformationMethod(new HideReturnsTransformationMethod());}
-                else {NewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance()); ConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());}
-            }
-        });
 
         HaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
         NewPassword = findViewById(R.id.register_password);
         ConfirmPassword = findViewById(R.id.confirm_register_password);
         HaveAccount = findViewById(R.id.already_have_account);
-        ShowRegisterPassword = findViewById(R.id.Show_Register_Password);
+
         progressBar = new ProgressDialog(this);
 
     }

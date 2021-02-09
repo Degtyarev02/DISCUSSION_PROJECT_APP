@@ -5,64 +5,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:background="@drawable/shadow"
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    android:layout_marginTop="60dp"
+    android:layout_marginBottom="60dp"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp"
+    >
+
+    <ImageView
         android:id="@+id/profile_image"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:src="@drawable/man"
-        app:civ_border_color="@color/DarkGray"
-        app:civ_border_width="5dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="60dp"/>
 
-    <EditText
-        android:id="@+id/set_username"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/set_username_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_image"
-        android:inputType="textMultiLine"
-        android:hint="User Name"
-        android:background="@drawable/inputs"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="25dp"
-        android:drawableLeft="@drawable/user"
-        android:drawablePadding="5dp"
-        android:padding="10dp"
-        />
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        app:hintTextColor="@color/purple_700">
 
-    <EditText
-        android:id="@+id/set_user_status"
+        <EditText
+            android:id="@+id/set_username"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="User Name"
+            android:inputType="text"
+            android:textColorHighlight="@color/Gray"
+            android:textColorHint="@color/Gray"
+            android:textColorLink="@color/Gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/set_user_status_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/set_username"
-        android:inputType="textMultiLine"
-        android:hint="Tell about you "
-        android:background="@drawable/inputs"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="15dp"
-        android:drawableLeft="@drawable/calendar"
-        android:drawablePadding="5dp"
-        android:padding="10dp"
-        />
+        android:layout_below="@+id/set_username_layout"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        app:hintTextColor="@color/purple_700">
+
+        <EditText
+            android:id="@+id/set_user_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Set your status"
+            android:inputType="text"
+            android:textColorHighlight="@color/Gray"
+            android:textColorHint="@color/Gray"
+            android:textColorLink="@color/Gray" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/update_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/set_user_status"
+        android:layout_below="@id/set_user_status_layout"
         android:padding="10dp"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:text="Update"
         android:background="@drawable/round"
-        android:backgroundTint="@color/yellow"
-        android:textColor="@color/DarkGray"
+        android:backgroundTint="@color/purple_700"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
         android:layout_centerHorizontal="true"
         />
 
