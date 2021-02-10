@@ -35,9 +35,8 @@ public class GroupsFragment extends Fragment {
     private DatabaseReference GroupRef;
 
 
-    public GroupsFragment() {
-        // Required empty public constructor
-    }
+    public GroupsFragment() {}
+
 
 
     @Override
