@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/discussion"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger_Project">
-        <activity android:name=".GroupChatActivity"></activity>
+        <activity android:name=".PhoneLoginActivity"></activity>
+        <activity android:name=".GroupChatActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />

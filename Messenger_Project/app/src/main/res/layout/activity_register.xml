@@ -120,4 +120,18 @@
         android:textColor="@color/purple_700"
         android:background="@drawable/inputs_orange"
         android:textAllCaps="false"/>
+
+    <TextView
+        android:id="@+id/Phone_autentification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/already_have_account"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="77dp"
+        android:layout_marginLeft="77dp"
+        android:layout_marginTop="14dp"
+        android:gravity="start"
+        android:text="Enter with phone number"
+        android:textSize="16sp" />
 </RelativeLayout>

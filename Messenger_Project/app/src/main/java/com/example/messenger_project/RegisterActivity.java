@@ -29,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button RegisterBtn, HaveAccount;
     private EditText NewEmail, NewPassword, ConfirmPassword;
+    private TextView PhoneAuth;
 
     private FirebaseAuth mAuth;
     private DatabaseReference RootReference;
@@ -62,7 +63,16 @@ public class RegisterActivity extends AppCompatActivity {
                 CreateNewAccount();
             }
         });
+
+        PhoneAuth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SendUserToPhoneRegActivity();
+            }
+        });
     }
+
 
     private void CreateNewAccount()
     {
@@ -100,13 +110,13 @@ public class RegisterActivity extends AppCompatActivity {
                                 RootReference.child("Users").child(userId).setValue(" ");
 
                                 SendUserToMainActivity();
-                                Toast.makeText(RegisterActivity.this, "Successful!", Toast.LENGTH_LONG);
+                                Toast.makeText(RegisterActivity.this, "Successful!", Toast.LENGTH_LONG).show();
                                 progressBar.dismiss();
                             }
                             else
                             {
                                 String message = task.getException().toString();
-                                Toast.makeText(RegisterActivity.this, "Error" + message, Toast.LENGTH_LONG);
+                                Toast.makeText(RegisterActivity.this, "Error" + message, Toast.LENGTH_LONG).show();
                                 progressBar.dismiss();
                             }
                         }
@@ -121,6 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
         NewPassword = findViewById(R.id.register_password);
         ConfirmPassword = findViewById(R.id.confirm_register_password);
         HaveAccount = findViewById(R.id.already_have_account);
+        PhoneAuth = findViewById(R.id.Phone_autentification);
 
         progressBar = new ProgressDialog(this);
 
@@ -138,5 +149,11 @@ public class RegisterActivity extends AppCompatActivity {
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();
+    }
+
+    private void SendUserToPhoneRegActivity()
+    {
+        Intent phoneAuth = new Intent(RegisterActivity.this, PhoneLoginActivity.class);
+        startActivity(phoneAuth);
     }
 }
