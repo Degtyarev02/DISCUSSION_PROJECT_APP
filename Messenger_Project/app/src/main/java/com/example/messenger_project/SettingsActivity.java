@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -42,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     private DatabaseReference RootRef;
 
     private static final int GalleryPick = 1;
+    private StorageReference userProfImageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
         RootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
+        userProfImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
         Initialize();
         RetrieveUserInfo();
@@ -82,23 +90,57 @@ public class SettingsActivity extends AppCompatActivity {
         UpdateInfo = findViewById(R.id.update_button);
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == GalleryPick && requestCode == RESULT_OK && data != null)
+        if (requestCode==GalleryPick  &&  resultCode==RESULT_OK  &&  data!=null)
         {
             Uri ImageUri = data.getData();
-            CropImage.activity()
+
+            CropImage.activity(ImageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(1,1)
+                    .setAspectRatio(1, 1)
                     .start(this);
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
         {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK)
+            {
+                Uri resultUri = result.getUri();
+
+                final StorageReference filePath = userProfImageRef.child(currentUserId + ".jpg");
+
+                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            Toast.makeText(SettingsActivity.this, "Profile Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
+
+                            final String downloaedUrl = task.getResult().getStorage().getDownloadUrl().toString();
+
+                            filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+
+                                    final String downloaedUrl = uri.toString();
+
+                                    RootRef.child("Users").child(currentUserId).child("image")
+                                            .setValue(downloaedUrl);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
         }
+
     }
 
     private void UpdateSettings()
@@ -136,12 +178,14 @@ public class SettingsActivity extends AppCompatActivity {
                     {
                         if((snapshot.exists()) && (snapshot.hasChild("name") && snapshot.hasChild("image")))
                         {
+
                             String retrieveUserName = snapshot.child("name").getValue().toString();
                             String retrieveUserStatus = snapshot.child("status").getValue().toString();
                             String retrieveProfileImage = snapshot.child("image").getValue().toString();
 
                             UserName.setText(retrieveUserName);
                             UserStatus.setText(retrieveUserStatus);
+                            Picasso.get().load(retrieveProfileImage).into(UserIcon);
 
                             UserName.setEnabled(false);
                         }

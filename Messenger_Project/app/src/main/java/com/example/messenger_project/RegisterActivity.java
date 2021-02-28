@@ -137,6 +137,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
+
+    // Send user to another one activity
+
+
+
+
     private void SendUserToLoginActivity()
     {
         Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class );
