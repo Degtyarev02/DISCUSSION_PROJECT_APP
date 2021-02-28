@@ -1,10 +1,12 @@
 package com.example.messenger_project;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
@@ -36,6 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentUserId;
     private DatabaseReference RootRef;
+
+    private static final int GalleryPick = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,16 @@ public class SettingsActivity extends AppCompatActivity {
                 UpdateSettings();
             }
         });
+
+        UserIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, GalleryPick);
+            }
+        });
     }
 
 
@@ -64,6 +80,25 @@ public class SettingsActivity extends AppCompatActivity {
         UserName = findViewById(R.id.set_username);
         UserStatus = findViewById(R.id.set_user_status);
         UpdateInfo = findViewById(R.id.update_button);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GalleryPick && requestCode == RESULT_OK && data != null)
+        {
+            Uri ImageUri = data.getData();
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1,1)
+                    .start(this);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
+        {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+        }
     }
 
     private void UpdateSettings()
