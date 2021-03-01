@@ -21,7 +21,7 @@ public class FindFriendsActivity extends AppCompatActivity
 
         mToolbar = findViewById(R.id.find_friends_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Find Friends");
     }
