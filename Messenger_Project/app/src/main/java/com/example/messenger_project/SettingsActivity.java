@@ -41,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private EditText UserName, UserStatus;
     private Button UpdateInfo;
-    private ImageView UserIcon;
+    private CircleImageView UserIcon;
 
     private FirebaseAuth mAuth;
     private String currentUserId;
