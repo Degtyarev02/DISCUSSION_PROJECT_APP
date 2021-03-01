@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case(R.id.main_find_friends):
+                SendUserToFindFriends();
                 break;
             case(R.id.main_settings):
                 SendUserToSettingsActivity();
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
 
     private void RequestNewGroup()
     {
@@ -190,4 +192,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(settingsIntent);
         finish();
     }
+
+    private void SendUserToFindFriends()
+    {
+        Intent FindFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class );
+        startActivity(FindFriendsIntent);
+    }
+
 }
