@@ -43,6 +43,8 @@ public class SettingsActivity extends AppCompatActivity {
     private Button UpdateInfo;
     private CircleImageView UserIcon;
 
+    private String photoURL;
+
     private FirebaseAuth mAuth;
     private String currentUserId;
     private DatabaseReference RootRef;
@@ -152,6 +154,7 @@ public class SettingsActivity extends AppCompatActivity {
             ProfileMap.put("uid", currentUserId);
             ProfileMap.put("name", setUserName);
             ProfileMap.put("status", setStatus);
+            ProfileMap.put("image", photoURL);
 
         if(!TextUtils.isEmpty(setUserName))
         {
@@ -182,6 +185,7 @@ public class SettingsActivity extends AppCompatActivity {
                             String retrieveUserName = snapshot.child("name").getValue().toString();
                             String retrieveUserStatus = snapshot.child("status").getValue().toString();
                             String retrieveProfileImage = snapshot.child("image").getValue().toString();
+                            photoURL = retrieveProfileImage;
 
                             UserName.setText(retrieveUserName);
                             UserStatus.setText(retrieveUserStatus);
