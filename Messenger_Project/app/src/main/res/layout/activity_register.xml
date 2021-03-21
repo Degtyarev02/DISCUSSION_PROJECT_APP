@@ -34,7 +34,7 @@
             android:id="@+id/register_email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,7 +53,7 @@
             android:id="@+id/register_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +72,7 @@
             android:id="@+id/confirm_register_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Confirm Password"
+            android:hint="@string/confirm_password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,7 +89,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/round"
         android:backgroundTint="@color/purple_700"
-        android:text="Create"
+        android:text="@string/create"
         android:textAllCaps="false"
         android:textColor="@color/white"
         />
@@ -105,7 +105,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:gravity="start"
-        android:text="Already have an account?"
+        android:text="@string/already_have_an_account"
         android:textSize="16sp" />
 
     <Button
@@ -116,7 +116,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="15dp"
         android:layout_marginRight="30dp"
-        android:text="Sign in"
+        android:text="@string/sign_in"
         android:textColor="@color/purple_700"
         android:background="@drawable/inputs_orange"
         android:textAllCaps="false"/>
@@ -132,6 +132,6 @@
         android:layout_marginLeft="77dp"
         android:layout_marginTop="14dp"
         android:gravity="start"
-        android:text="Enter with phone number"
+        android:text="@string/enter_with_phone_number"
         android:textSize="16sp" />
 </RelativeLayout>
