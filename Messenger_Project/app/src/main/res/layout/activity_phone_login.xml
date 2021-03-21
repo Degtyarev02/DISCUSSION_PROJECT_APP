@@ -37,13 +37,13 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="200dp">
+        android:layout_marginTop="250dp">
 
         <EditText
             android:id="@+id/Phone_number_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Phone number"
+            android:hint="@string/phone_number"
             android:inputType="phone"
             android:padding="8dp"/>
     </com.google.android.material.textfield.TextInputLayout>
