@@ -107,8 +107,8 @@ public class RegisterActivity extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 String userId = mAuth.getCurrentUser().getUid();
-                                RootReference.child("Users").child(userId).setValue(" ");
-
+                                RootReference.child("Users").child(userId).child("email").setValue(email);
+                                RootReference.child("Users").child(userId).child("password").setValue(password);
                                 SendUserToMainActivity();
                                 Toast.makeText(RegisterActivity.this, "Successful!", Toast.LENGTH_LONG).show();
                                 progressBar.dismiss();

@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
     private String photoURL;
 
     private FirebaseAuth mAuth;
-    private String currentUserId;
+    private String currentUserId, retrieveEmail, retrievePassword;
     private DatabaseReference RootRef;
 
     private static final int GalleryPick = 1;
@@ -61,6 +61,22 @@ public class SettingsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
         userProfImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
+
+        RootRef.child("Users").child(currentUserId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot)
+                    {
+                        retrieveEmail = snapshot.child("email").getValue().toString();
+                        retrievePassword = snapshot.child("password").getValue().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error)
+                    {
+
+                    }
+                });
 
         Initialize();
         RetrieveUserInfo();
@@ -155,6 +171,8 @@ public class SettingsActivity extends AppCompatActivity {
             ProfileMap.put("name", setUserName);
             ProfileMap.put("status", setStatus);
             ProfileMap.put("image", photoURL);
+            ProfileMap.put("email", retrieveEmail);
+            ProfileMap.put("password", retrievePassword);
 
         if(!TextUtils.isEmpty(setUserName))
         {
