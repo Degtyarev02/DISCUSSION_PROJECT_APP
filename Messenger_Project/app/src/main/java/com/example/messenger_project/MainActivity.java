@@ -14,9 +14,11 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.flatdialoglibrary.dialog.FlatDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
@@ -129,8 +131,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void RequestNewGroup()
+   /* private void RequestNewGroup()
     {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialog);
         builder.setTitle("Enter group name: ");
 
@@ -152,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which)
@@ -161,6 +163,33 @@ public class MainActivity extends AppCompatActivity {
 
         builder.show();
 
+    }*/
+
+    private void RequestNewGroup()
+    {
+        FlatDialog flatDialog = new FlatDialog(MainActivity.this);
+        flatDialog.setTitle("Create new Group")
+                .setFirstTextFieldHint("Group name")
+                .setFirstButtonText("Create")
+                .setSecondButtonText("Cancel")
+                .withFirstButtonListner(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String groupName = flatDialog.getFirstTextField();
+                        if(!TextUtils.isEmpty(groupName))
+                        {
+                            CreateNewGroup(groupName);
+                            flatDialog.dismiss();
+                        }
+                    }
+                })
+                .withSecondButtonListner(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        flatDialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     private void CreateNewGroup(String groupName)
