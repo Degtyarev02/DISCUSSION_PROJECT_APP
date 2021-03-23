@@ -25,6 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import es.dmoral.toasty.Toasty;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private Button RegisterBtn, HaveAccount;
@@ -82,12 +84,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) )
         {
-            Toast.makeText(this, "Please enter Email and Password", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Please enter Email and Password", Toast.LENGTH_SHORT).show();
         }
 
         else if(!password.equals(ConfPas))
         {
-            Toast.makeText(this, "Passwords are not equals", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Passwords are not equals", Toast.LENGTH_SHORT).show();
         }
 
         else
@@ -110,13 +112,13 @@ public class RegisterActivity extends AppCompatActivity {
                                 RootReference.child("Users").child(userId).child("email").setValue(email);
                                 RootReference.child("Users").child(userId).child("password").setValue(password);
                                 SendUserToMainActivity();
-                                Toast.makeText(RegisterActivity.this, "Successful!", Toast.LENGTH_LONG).show();
+                                Toasty.success(RegisterActivity.this, "Successful!", Toast.LENGTH_LONG).show();
                                 progressBar.dismiss();
                             }
                             else
                             {
                                 String message = task.getException().toString();
-                                Toast.makeText(RegisterActivity.this, "Error" + message, Toast.LENGTH_LONG).show();
+                                Toasty.error(RegisterActivity.this, "Error" + message, Toast.LENGTH_LONG).show();
                                 progressBar.dismiss();
                             }
                         }

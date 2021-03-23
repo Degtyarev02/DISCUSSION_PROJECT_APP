@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -131,47 +132,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-   /* private void RequestNewGroup()
-    {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialog);
-        builder.setTitle("Enter group name: ");
-
-        final EditText groupNameField = new EditText(MainActivity.this);
-
-        groupNameField.setTextColor(getResources().getColor(R.color.white));
-        groupNameField.setHint("This is a group name");
-        builder.setView(groupNameField);
-
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                String groupName = groupNameField.getText().toString();
-                if(!TextUtils.isEmpty(groupName))
-                {
-                    CreateNewGroup(groupName);
-                }
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            { dialog.cancel(); }
-        });
-
-        builder.show();
-
-    }*/
-
     private void RequestNewGroup()
     {
         FlatDialog flatDialog = new FlatDialog(MainActivity.this);
-        flatDialog.setTitle("Create new Group")
+        flatDialog
+                .setTitle("Create new Group")
                 .setFirstTextFieldHint("Group name")
                 .setFirstButtonText("Create")
                 .setSecondButtonText("Cancel")
+                .setBackgroundColor(Color.parseColor("#FFFFFF"))
+                .setFirstButtonColor(Color.parseColor("#ffc93c"))
+                .setFirstButtonTextColor(Color.parseColor("#31326f"))
+                .setSecondButtonColor(Color.parseColor("#31326f"))
+                .setSecondButtonTextColor(Color.parseColor("#f0f0f0"))
+                .setTitleColor(Color.parseColor("#31326f"))
+                .setFirstTextFieldBorderColor(Color.parseColor("#ffc93c"))
+                .setFirstTextFieldTextColor(Color.parseColor("#595959"))
+                .setFirstTextFieldHintColor(Color.parseColor("#595959"))
                 .withFirstButtonListner(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

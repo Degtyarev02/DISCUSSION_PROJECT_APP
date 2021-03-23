@@ -36,6 +36,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -139,7 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
                     {
                         if (task.isSuccessful())
                         {
-                            Toast.makeText(SettingsActivity.this, "Profile Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
+                            Toasty.success(SettingsActivity.this, "Profile Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
 
                             final String downloaedUrl = task.getResult().getStorage().getDownloadUrl().toString();
 
@@ -181,13 +182,13 @@ public class SettingsActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(SettingsActivity.this, "Update is Successfully", Toast.LENGTH_SHORT).show();
+                                Toasty.success(SettingsActivity.this, "Update is Successfully", Toast.LENGTH_SHORT).show();
                                 SendUserToMainActivity();
                             }
                         }
                     });
         }
-        else Toast.makeText(SettingsActivity.this, "Please enter your name", Toast.LENGTH_SHORT).show();
+        else Toasty.error(SettingsActivity.this, "Please enter your name", Toast.LENGTH_SHORT).show();
     }
 
     private void RetrieveUserInfo()
