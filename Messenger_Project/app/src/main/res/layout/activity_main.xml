@@ -23,8 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:tabTextColor="@color/DarkGray"
-            app:tabIndicatorColor="@color/DarkGray">
+            android:background="@color/Gray"
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/white">
 
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>

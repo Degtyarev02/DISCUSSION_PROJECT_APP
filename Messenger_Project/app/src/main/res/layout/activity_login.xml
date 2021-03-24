@@ -5,15 +5,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/shadow"
 
-    android:layout_marginTop="40dp"
-    android:layout_marginBottom="40dp"
-    android:layout_marginLeft="40dp"
-    android:layout_marginRight="40dp">
+    android:layout_margin="20dp">
 
     <ImageView
         android:id="@+id/login_image"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:src="@drawable/teamwork"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -27,7 +24,7 @@
         android:layout_below="@+id/login_image"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginRight="15dp"
         app:hintTextColor="@color/purple_700">
 
@@ -94,7 +91,6 @@
         android:layout_marginRight="30dp"
         android:layout_centerHorizontal="true"
         android:textSize="16sp"
-        android:textColor="@color/Gray"
         android:gravity="center" />
 
     <TextView

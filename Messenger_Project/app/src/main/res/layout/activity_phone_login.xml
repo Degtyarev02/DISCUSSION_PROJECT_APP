@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/shadow"
 
-    android:layout_marginTop="40dp"
-    android:layout_marginBottom="40dp"
-    android:layout_marginLeft="40dp"
-    android:layout_marginRight="40dp"
+    android:layout_margin="20dp"
     tools:context=".PhoneLoginActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -26,9 +23,7 @@
         android:layout_marginEnd="92dp"
         android:layout_marginRight="92dp"
         android:src="@drawable/phone_object"
-        app:civ_circle_background_color="@color/purple_700"
-        app:civ_border_width="5dp"
-        app:civ_border_color="@color/purple_700"/>
+        app:civ_circle_background_color="@color/Gray" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Phone_number_input_layout"
@@ -37,7 +32,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="250dp">
+        android:layout_marginTop="280dp">
 
         <EditText
             android:id="@+id/Phone_number_input"
