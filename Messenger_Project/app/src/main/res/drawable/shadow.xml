@@ -84,7 +84,7 @@
 
             </solid>
             <size
-                android:height="300dp">
+                android:height="250dp">
 
             </size>
             <corners
