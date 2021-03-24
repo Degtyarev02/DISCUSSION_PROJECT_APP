@@ -143,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
                 .setBackgroundColor(Color.parseColor("#FFFFFF"))
                 .setFirstButtonColor(Color.parseColor("#2b2e4a"))
                 .setFirstButtonTextColor(Color.parseColor("#f0f0f0"))
-                .setSecondButtonColor(Color.parseColor("#e84545"))
+                .setSecondButtonColor(Color.parseColor("#903749"))
                 .setSecondButtonTextColor(Color.parseColor("#f0f0f0"))
                 .setTitleColor(Color.parseColor("#2b2e4a"))
-                .setFirstTextFieldBorderColor(Color.parseColor("#e84545"))
+                .setFirstTextFieldBorderColor(Color.parseColor("#903749"))
                 .setFirstTextFieldTextColor(Color.parseColor("#595959"))
                 .setFirstTextFieldHintColor(Color.parseColor("#595959"))
                 .withFirstButtonListner(new View.OnClickListener() {
