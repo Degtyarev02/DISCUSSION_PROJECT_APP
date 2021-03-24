@@ -84,12 +84,12 @@
 
             </solid>
             <size
-                android:height="150dp">
+                android:height="300dp">
 
             </size>
             <corners
-                android:bottomLeftRadius="10dp"
-                android:bottomRightRadius="10dp"
+                android:bottomLeftRadius="5dp"
+                android:bottomRightRadius="5dp"
                 android:topLeftRadius="5dp"
                 android:topRightRadius="5dp">
             </corners>
