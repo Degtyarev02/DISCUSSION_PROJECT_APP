@@ -57,4 +57,16 @@
         android:layout_marginRight="50dp"
         android:layout_marginTop="15dp"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/decline_request"
+        android:layout_below="@+id/request_message_btn"
+        android:text="Cancel"
+        android:background="@drawable/inputs_orange"
+        android:textColor="@color/purple_700"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="15dp"/>
+
 </RelativeLayout>

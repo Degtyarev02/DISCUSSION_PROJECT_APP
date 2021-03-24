@@ -26,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
     private CircleImageView profileImage;
     private TextView userName;
     private TextView userStatus;
-    private Button sendMessage;
+    private Button sendMessage, DeclineReqBtn;
 
     private DatabaseReference userRef, chatRequestRef;
     private FirebaseAuth mAuth;
@@ -47,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         userName = findViewById(R.id.visit_username);
         userStatus = findViewById(R.id.visit_status);
         sendMessage = findViewById(R.id.request_message_btn);
+        DeclineReqBtn = findViewById(R.id.decline_request);
         currentState = "new";
 
         RetrieveUserInfo();
@@ -91,6 +92,27 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void ManageChatRequest()
     {
+        chatRequestRef.child(senderUserID)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot)
+                    {
+                        if(snapshot.hasChild(receiverUserID))
+                        {
+                            String request_type = snapshot.child(receiverUserID).child("request_type").getValue().toString();
+                            if(request_type.equals("sent"))
+                            {
+                                currentState = "request_send";
+                                sendMessage.setText("Cancel Chat Request");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
         if(!senderUserID.equals(receiverUserID))
         {
             sendMessage.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +139,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void CancelChatRequest()
     {
-        chatRequestRef.child(senderUserID).child(receiverUserID).removeValue()
+        chatRequestRef.child(senderUserID).child(receiverUserID)
+                 .removeValue()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task)
