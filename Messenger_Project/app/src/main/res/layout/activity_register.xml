@@ -5,15 +5,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/shadow"
 
-    android:layout_marginTop="40dp"
-    android:layout_marginBottom="40dp"
-    android:layout_marginLeft="40dp"
-    android:layout_marginRight="40dp">
+    android:layout_margin="20dp">
 
     <ImageView
         android:id="@+id/register_image"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:src="@drawable/writing"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"

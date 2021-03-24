@@ -6,6 +6,6 @@
     android:id="@+id/main_app_bar"
     android:background="@color/purple_700"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:titleTextColor="@color/DarkGray">
+    app:titleTextColor="@color/white">
 
 </androidx.appcompat.widget.Toolbar>
