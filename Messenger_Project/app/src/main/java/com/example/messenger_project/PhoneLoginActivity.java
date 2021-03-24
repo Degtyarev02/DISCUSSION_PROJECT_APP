@@ -25,6 +25,8 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
+import es.dmoral.toasty.Toasty;
+
 public class PhoneLoginActivity extends AppCompatActivity {
 
     private String mVerificationId;
@@ -90,14 +92,14 @@ public class PhoneLoginActivity extends AppCompatActivity {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential)
             {
-                Toast.makeText(PhoneLoginActivity.this, "Successful!", Toast.LENGTH_LONG).show();
+                Toasty.success(PhoneLoginActivity.this, "Successful!", Toast.LENGTH_LONG).show();
                 signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e)
             {
-                Toast.makeText(PhoneLoginActivity.this, "Something gone wrong!", Toast.LENGTH_LONG).show();
+                Toasty.error(PhoneLoginActivity.this, "Something gone wrong!", Toast.LENGTH_LONG).show();
             }
 
             @Override

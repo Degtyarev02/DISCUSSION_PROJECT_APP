@@ -23,6 +23,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import es.dmoral.toasty.Toasty;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -66,7 +68,9 @@ public class LoginActivity extends AppCompatActivity {
         String email = UserEmail.getText().toString();
         String password = UserPassword.getText().toString();
 
-        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) ) Toast.makeText(this, "Please enter Email and Password", Toast.LENGTH_SHORT).show();
+        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) ) {
+            Toasty.error(this, "Please enter Email and Password", Toast.LENGTH_SHORT).show();
+        }
         else
         {
 
@@ -78,13 +82,13 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             if(task.isSuccessful())
                             {
-                                Toast.makeText(LoginActivity.this, "Logged in Successful!", Toast.LENGTH_LONG);
+                                Toasty.success(LoginActivity.this, "Logged in Successful!", Toast.LENGTH_LONG).show();
                                 SendUserToMainActivity();
                             }
                             else
                             {
                                 String message = task.getException().toString();
-                                Toast.makeText(LoginActivity.this, "Error" + message, Toast.LENGTH_LONG);
+                                Toasty.error(LoginActivity.this, "Error" + message, Toast.LENGTH_LONG).show();
                             }
                         }
                     });
