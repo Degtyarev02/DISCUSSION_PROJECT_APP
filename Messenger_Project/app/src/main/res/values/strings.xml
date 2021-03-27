@@ -13,4 +13,6 @@
     <string name="no_account">No account?</string>
     <string name="sign_up">Sign up</string>
     <string name="phone_number">Phone number</string>
+    <string name="CancelChatRequest">Cancel Chat Request</string>
+    <string name="AcceptChatRequest">Accept chat request</string>
 </resources>
