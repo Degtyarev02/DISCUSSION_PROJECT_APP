@@ -134,9 +134,6 @@ public class ProfileActivity extends AppCompatActivity {
                                             {
                                                 currentState = "friends";
                                                 sendMessage.setText("Remove contact");
-                                                GradientDrawable drawable = (GradientDrawable)sendMessage.getBackground();
-                                                drawable.setStroke(3, Color.parseColor("#903749"));
-                                                sendMessage.setTextColor(Color.parseColor("#903749"));
                                             }
                                         }
 
@@ -173,6 +170,10 @@ public class ProfileActivity extends AppCompatActivity {
                     {
                         AcceptChatRequest();
                     }
+                    if(currentState.equals("friends"))
+                    {
+                        RemoveContact();
+                    }
                 }
             });
         }
@@ -180,6 +181,32 @@ public class ProfileActivity extends AppCompatActivity {
         {
             sendMessage.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void RemoveContact() {
+        contactsRef.child(senderUserID).child(receiverUserID)
+                .removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            contactsRef.child(receiverUserID).child(senderUserID).removeValue()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                               @Override
+                                                               public void onComplete(@NonNull Task<Void> task) {
+                                                                   if (task.isSuccessful()) {
+                                                                       sendMessage.setEnabled(true);
+                                                                       currentState = "new";
+                                                                       sendMessage.setText("Send Message");
+                                                                       DeclineReqBtn.setVisibility(View.INVISIBLE);
+                                                                       DeclineReqBtn.setEnabled(false);
+                                                                   }
+                                                               }
+                                                           }
+                                    );
+                        }
+                    }
+                });
     }
 
     private void AcceptChatRequest()
@@ -215,9 +242,6 @@ public class ProfileActivity extends AppCompatActivity {
                                                                     sendMessage.setEnabled(true);
                                                                     currentState = "friends";
                                                                     sendMessage.setText("Remove contact");
-                                                                    GradientDrawable drawable = (GradientDrawable)sendMessage.getBackground();
-                                                                    drawable.setStroke(3, Color.parseColor("#903749"));
-                                                                    sendMessage.setTextColor(Color.parseColor("#903749"));
                                                                     DeclineReqBtn.setVisibility(View.INVISIBLE);
                                                                     DeclineReqBtn.setEnabled(false);
                                                                 }
@@ -254,6 +278,8 @@ public class ProfileActivity extends AppCompatActivity {
                                                 sendMessage.setEnabled(true);
                                                 currentState = "new";
                                                 sendMessage.setText("Send Message");
+                                                DeclineReqBtn.setVisibility(View.INVISIBLE);
+                                                DeclineReqBtn.setEnabled(false);
                                             }
                                         }
                                     }
