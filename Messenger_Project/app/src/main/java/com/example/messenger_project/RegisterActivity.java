@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -36,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference RootReference;
     private ProgressDialog progressBar;
+    public Animation animAlpha;
 
 
 
@@ -55,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         HaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(animAlpha);
                  SendUserToLoginActivity();
             }
         });
@@ -62,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         RegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(animAlpha);
                 CreateNewAccount();
             }
         });
@@ -69,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
         PhoneAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                v.startAnimation(animAlpha);
                 SendUserToPhoneRegActivity();
             }
         });
@@ -134,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
         ConfirmPassword = findViewById(R.id.confirm_register_password);
         HaveAccount = findViewById(R.id.already_have_account);
         PhoneAuth = findViewById(R.id.Phone_autentification);
-
+        animAlpha = AnimationUtils.loadAnimation(this, R.anim.button);
         progressBar = new ProgressDialog(this);
 
     }
@@ -142,9 +147,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     // Send user to another one activity
-
-
-
 
     private void SendUserToLoginActivity()
     {
