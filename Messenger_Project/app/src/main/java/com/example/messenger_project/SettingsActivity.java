@@ -3,6 +3,7 @@ package com.example.messenger_project;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -52,6 +53,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static final int GalleryPick = 1;
     private StorageReference userProfImageRef;
+
+    private Toolbar setToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +110,12 @@ public class SettingsActivity extends AppCompatActivity {
         UserName = findViewById(R.id.set_username);
         UserStatus = findViewById(R.id.set_user_status);
         UpdateInfo = findViewById(R.id.update_button);
+
+        setToolBar = findViewById(R.id.settings_toolbar);
+        setSupportActionBar(setToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setTitle("Account Settings");
     }
 
 
@@ -203,12 +212,11 @@ public class SettingsActivity extends AppCompatActivity {
 
                             String retrieveUserName = snapshot.child("name").getValue().toString();
                             String retrieveUserStatus = snapshot.child("status").getValue().toString();
-                            String retrieveProfileImage = snapshot.child("image").getValue().toString();
-                            photoURL = retrieveProfileImage;
+                            photoURL = snapshot.child("image").getValue().toString();
 
                             UserName.setText(retrieveUserName);
                             UserStatus.setText(retrieveUserStatus);
-                            Picasso.get().load(retrieveProfileImage).into(UserIcon);
+                            Picasso.get().load(photoURL).into(UserIcon);
 
                             UserName.setEnabled(false);
                         }
