@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -35,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth MyAuth;
     private ProgressDialog LoggedBar;
+    public Animation animAlpha;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                v.startAnimation(animAlpha);
                 SendUserToRegisterActivity();
             }
         });
@@ -57,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         LoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(animAlpha);
                 AllowUserToLogin();
             }
         });
@@ -96,13 +102,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
     private void InitializeField() //Функция инициализирует все поля в активити для входа
     {
         LoginBtn = findViewById(R.id.login_button);
 //        PhoneLoginBtn = findViewById(R.id.phone_login_button);
 
+        animAlpha = AnimationUtils.loadAnimation(this, R.anim.button);
         UserEmail = findViewById(R.id.login_email);
         UserPassword = findViewById(R.id.login_password);
 
