@@ -103,8 +103,7 @@ public class ContactsFragment extends Fragment {
             public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
             {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.users_dispaly_layout, parent, false);
-                ContactsViewHolder viewHolder = new ContactsViewHolder(view);
-                return viewHolder;
+                return new ContactsViewHolder(view);
             }
         };
 
