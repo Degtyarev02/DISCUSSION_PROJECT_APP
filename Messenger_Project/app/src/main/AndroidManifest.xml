@@ -13,10 +13,16 @@
         android:roundIcon="@mipmap/discussion"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger_Project">
+
+        <activity android:name=".Logo_activity">
+
+        </activity>
+
         <activity
             android:name=".ChatActivity"
             android:parentActivityName=".MainActivity">
         </activity>
+
         <activity android:name=".ProfileActivity" />
         <activity
             android:name=".FindFriendsActivity"
@@ -26,8 +32,8 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity">
-
         </activity>
+
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity

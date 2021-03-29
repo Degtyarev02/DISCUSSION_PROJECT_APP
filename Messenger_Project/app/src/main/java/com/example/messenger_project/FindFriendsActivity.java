@@ -2,6 +2,7 @@ package com.example.messenger_project;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,6 +90,7 @@ public class FindFriendsActivity extends AppCompatActivity
                 }
             };
 
+        findFriendsRV.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         findFriendsRV.setAdapter(adapter);
         adapter.startListening();
 

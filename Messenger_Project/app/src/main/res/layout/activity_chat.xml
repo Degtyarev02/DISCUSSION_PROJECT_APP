@@ -11,10 +11,19 @@
         layout="@layout/app_toolbar_layout">
     </include>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_chat"
+        android:layout_below="@+id/chat_toolbar"
+        android:layout_above="@+id/linear_chat_layout"
+        android:scaleType="centerCrop"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/private_messenger_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/linear_chat_layout"
         android:layout_below="@id/chat_toolbar">
 
     </androidx.recyclerview.widget.RecyclerView>

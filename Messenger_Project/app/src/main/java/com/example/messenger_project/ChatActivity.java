@@ -148,43 +148,6 @@ public class ChatActivity extends AppCompatActivity
         userMessagesList.setAdapter(messageAdapter);
     }
 
-  /*  @Override
-    protected void onStart() {
-
-        super.onStart();
-        RootRef.child("Messages").child(currentUserId).child(messageReceiverID)
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-                    {
-                        Messages messages = snapshot.getValue(Messages.class);
-
-                        messagesList.add(messages);
-                        messageAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-                    {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-    }*/
 
 
     private void SendMessage()

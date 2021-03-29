@@ -6,8 +6,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/message_profile_image"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:src="@drawable/man_user"
         android:layout_marginTop="20dp"
         android:layout_marginRight="6dp"
@@ -25,7 +25,7 @@
         android:textColor="@color/black"
         android:text="Receiver Messages"
         android:padding="10dp"
-        android:textSize="15sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/sender_message_text"
@@ -40,6 +40,6 @@
         android:padding="10dp"
         android:text="Sender Messages"
         android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:textSize="17sp" />
 
 </RelativeLayout>
