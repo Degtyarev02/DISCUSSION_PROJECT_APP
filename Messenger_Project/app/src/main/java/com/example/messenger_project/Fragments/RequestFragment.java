@@ -1,4 +1,4 @@
-package com.example.messenger_project;
+package com.example.messenger_project.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.flatdialoglibrary.dialog.FlatDialog;
+import com.example.messenger_project.Contacts;
+import com.example.messenger_project.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;

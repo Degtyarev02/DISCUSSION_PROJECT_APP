@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="70a16dfe-7e5a-48e4-a165-d6bf91adcd5c" name="Default Changelist" comment="" />
+    <list default="true" id="70a16dfe-7e5a-48e4-a165-d6bf91adcd5c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/MessengerProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MessengerProject.iml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,10 +36,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="514" y="187" key="FileChooserDialogImpl" timestamp="1616574082297">
+    <state x="514" y="187" key="FileChooserDialogImpl" timestamp="1617134491840">
       <screen x="0" y="0" width="1466" height="864" />
     </state>
-    <state x="514" y="187" key="FileChooserDialogImpl/0.0.1466.864@0.0.1466.864" timestamp="1616574082297" />
+    <state x="514" y="187" key="FileChooserDialogImpl/0.0.1466.864@0.0.1466.864" timestamp="1617134491840" />
     <state x="515" y="187" key="FileChooserDialogImpl/0.0.1468.864@0.0.1468.864" timestamp="1614283083778" />
   </component>
 </project>

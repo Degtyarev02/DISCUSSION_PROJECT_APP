@@ -1,10 +1,15 @@
-package com.example.messenger_project;
+package com.example.messenger_project.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.example.messenger_project.Fragments.ChatsFragment;
+import com.example.messenger_project.Fragments.ContactsFragment;
+import com.example.messenger_project.Fragments.GroupsFragment;
+import com.example.messenger_project.Fragments.RequestFragment;
 
 public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
