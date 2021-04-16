@@ -15,4 +15,12 @@
     >
 
 </androidx.recyclerview.widget.RecyclerView>
+    <ImageView
+        android:id="@+id/empty_chats"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/empty_message"
+        android:visibility="invisible"/>
 </RelativeLayout>

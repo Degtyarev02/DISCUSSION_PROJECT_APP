@@ -15,4 +15,5 @@
     <string name="phone_number">Phone number</string>
     <string name="CancelChatRequest">Cancel Chat Request</string>
     <string name="AcceptChatRequest">Accept chat request</string>
+    <string name="new_message">New message...</string>
 </resources>

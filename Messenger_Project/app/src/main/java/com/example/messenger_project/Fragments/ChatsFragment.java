@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.messenger_project.Activities.ChatActivity;
@@ -33,6 +34,7 @@ public class ChatsFragment extends Fragment
 {
     private View privateChatView;
     private RecyclerView chatList;
+    private ImageView emptyChats;
 
     private DatabaseReference chatsRef, usersRef;
     private FirebaseAuth mAuth;
@@ -54,6 +56,7 @@ public class ChatsFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         privateChatView = inflater.inflate(R.layout.fragment_chats, container, false);
+        emptyChats = privateChatView.findViewById(R.id.empty_chats);
         chatList = privateChatView.findViewById(R.id.chats_list);
         chatList.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -75,6 +78,27 @@ public class ChatsFragment extends Fragment
                 new FirebaseRecyclerOptions.Builder<Contacts>()
                 .setQuery(chatsRef, Contacts.class)
                 .build();
+
+        chatsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists())
+                {
+                    chatList.setVisibility(View.INVISIBLE);
+                    emptyChats.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    chatList.setVisibility(View.VISIBLE);
+                    emptyChats.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         FirebaseRecyclerAdapter<Contacts, ChatsViewHolder> adapter =
                 new FirebaseRecyclerAdapter<Contacts, ChatsViewHolder>(options) {
@@ -109,11 +133,11 @@ public class ChatsFragment extends Fragment
                                             chatIntent.putExtra("visit_user_Id", userIDs);
                                             chatIntent.putExtra("visit_user_name", retUserName);
                                             chatIntent.putExtra("visit_user_image", retUserImage[0]);
-
                                             startActivity(chatIntent);
                                         }
                                     });
                                 }
+
 
                             }
 
@@ -134,10 +158,10 @@ public class ChatsFragment extends Fragment
                     }
                 };
 
-        chatList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+            chatList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+            chatList.setAdapter(adapter);
+            adapter.startListening();
 
-        chatList.setAdapter(adapter);
-        adapter.startListening();
     }
 
     public static class ChatsViewHolder extends RecyclerView.ViewHolder

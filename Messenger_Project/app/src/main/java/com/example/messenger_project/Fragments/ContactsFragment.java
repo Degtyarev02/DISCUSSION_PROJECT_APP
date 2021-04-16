@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.messenger_project.Contacts;
@@ -34,6 +35,7 @@ public class ContactsFragment extends Fragment {
     private DatabaseReference ContactsRef, usersRef;
     private FirebaseAuth myAuth;
     private String currentUserID;
+    private ImageView emptyContacts;
 
     public ContactsFragment()
     {
@@ -49,6 +51,8 @@ public class ContactsFragment extends Fragment {
         myContactList = ContactsView.findViewById(R.id.contacts_list);
         myContactList.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        emptyContacts = ContactsView.findViewById(R.id.empty_contacts);
+
         myAuth = FirebaseAuth.getInstance();
         currentUserID = myAuth.getCurrentUser().getUid();
         ContactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
@@ -63,6 +67,27 @@ public class ContactsFragment extends Fragment {
         FirebaseRecyclerOptions options =
                 new FirebaseRecyclerOptions.Builder<Contacts>()
                 .setQuery(ContactsRef, Contacts.class).build();
+
+        ContactsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists())
+                {
+                    myContactList.setVisibility(View.INVISIBLE);
+                    emptyContacts.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    myContactList.setVisibility(View.VISIBLE);
+                    emptyContacts.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         FirebaseRecyclerAdapter<Contacts, ContactsViewHolder> adapter
                 = new FirebaseRecyclerAdapter<Contacts, ContactsViewHolder>(options) {
