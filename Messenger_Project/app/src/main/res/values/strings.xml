@@ -16,4 +16,5 @@
     <string name="CancelChatRequest">Cancel Chat Request</string>
     <string name="AcceptChatRequest">Accept chat request</string>
     <string name="new_message">New message...</string>
+    <string name="there_are_no_chats">There are no chats :(</string>
 </resources>

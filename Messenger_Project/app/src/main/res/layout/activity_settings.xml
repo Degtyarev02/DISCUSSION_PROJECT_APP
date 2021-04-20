@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="User Name"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:textColorHighlight="@color/Gray"
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/Gray" />
