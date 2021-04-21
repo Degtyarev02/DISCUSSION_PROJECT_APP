@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.messenger_project.R;
@@ -31,6 +32,9 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.angmarch.views.NiceSpinner;
+import org.angmarch.views.OnSpinnerItemSelectedListener;
+
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText UserName, UserStatus;
     private Button UpdateInfo;
     private CircleImageView UserIcon;
-
+    private NiceSpinner statusSpinnerSelector;
     private String photoURL;
 
     private FirebaseAuth mAuth;
@@ -66,21 +70,27 @@ public class SettingsActivity extends AppCompatActivity {
         RootRef.child("Users").child(currentUserId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot)
-                    {
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
                         retrieveEmail = snapshot.child("email").getValue().toString();
                         retrievePassword = snapshot.child("password").getValue().toString();
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error)
-                    {
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
 
         Initialize();
         RetrieveUserInfo();
+
+        statusSpinnerSelector.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
+            @Override
+            public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
+                String item = parent.getSelectedItem().toString();
+                UserStatus.setText(item);
+            }
+        });
 
         UpdateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,12 +111,12 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    private void Initialize()
-    {
+    private void Initialize() {
         UserIcon = findViewById(R.id.profile_image);
         UserName = findViewById(R.id.set_username);
         UserStatus = findViewById(R.id.set_user_status);
         UpdateInfo = findViewById(R.id.update_button);
+        statusSpinnerSelector = findViewById(R.id.status_select_spinner);
 
         setToolBar = findViewById(R.id.settings_toolbar);
         setSupportActionBar(setToolBar);
@@ -120,8 +130,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==GalleryPick  &&  resultCode==RESULT_OK  &&  data!=null)
-        {
+        if (requestCode == GalleryPick && resultCode == RESULT_OK && data != null) {
             Uri ImageUri = data.getData();
 
             CropImage.activity(ImageUri)
@@ -130,22 +139,18 @@ public class SettingsActivity extends AppCompatActivity {
                     .start(this);
         }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
-        {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
-            if (resultCode == RESULT_OK)
-            {
+            if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
 
                 final StorageReference filePath = userProfImageRef.child(currentUserId + ".jpg");
 
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
-                    {
-                        if (task.isSuccessful())
-                        {
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
                             Toasty.success(SettingsActivity.this, "Profile Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
 
                             final String downloaedUrl = task.getResult().getStorage().getDownloadUrl().toString();
@@ -168,21 +173,21 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    private void UpdateSettings()
-    {
+    private void UpdateSettings() {
         String setUserName = UserName.getText().toString();
         String setStatus = UserStatus.getText().toString();
 
-        HashMap<String, String> ProfileMap = new HashMap<>();
-            ProfileMap.put("uid", currentUserId);
-            ProfileMap.put("name", setUserName);
-            ProfileMap.put("status", setStatus);
-            ProfileMap.put("image", photoURL);
-            ProfileMap.put("email", retrieveEmail);
-            ProfileMap.put("password", retrievePassword);
 
-        if(!TextUtils.isEmpty(setUserName))
-        {
+
+        HashMap<String, String> ProfileMap = new HashMap<>();
+        ProfileMap.put("uid", currentUserId);
+        ProfileMap.put("name", setUserName);
+        ProfileMap.put("status", setStatus);
+        ProfileMap.put("image", photoURL);
+        ProfileMap.put("email", retrieveEmail);
+        ProfileMap.put("password", retrievePassword);
+
+        if (!TextUtils.isEmpty(setUserName)) {
             RootRef.child("Users").child(currentUserId).setValue(ProfileMap)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -193,19 +198,16 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         }
                     });
-        }
-        else Toasty.error(SettingsActivity.this, "Please enter your name", Toast.LENGTH_SHORT).show();
+        } else
+            Toasty.error(SettingsActivity.this, "Please enter your name", Toast.LENGTH_SHORT).show();
     }
 
-    private void RetrieveUserInfo()
-    {
+    private void RetrieveUserInfo() {
         RootRef.child("Users").child(currentUserId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot)
-                    {
-                        if((snapshot.exists()) && (snapshot.hasChild("name") && snapshot.hasChild("image")))
-                        {
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if ((snapshot.exists()) && (snapshot.hasChild("name") && snapshot.hasChild("image"))) {
 
                             String retrieveUserName = snapshot.child("name").getValue().toString();
                             String retrieveUserStatus = snapshot.child("status").getValue().toString();
@@ -216,9 +218,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Picasso.get().load(photoURL).into(UserIcon);
 
                             UserName.setEnabled(false);
-                        }
-                        else if((snapshot.exists()) && (snapshot.hasChild("name")))
-                        {
+                        } else if ((snapshot.exists()) && (snapshot.hasChild("name"))) {
                             String retrieveUserName = snapshot.child("name").getValue().toString();
                             String retrieveUserStatus = snapshot.child("status").getValue().toString();
 
@@ -230,16 +230,14 @@ public class SettingsActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error)
-                    {
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
     }
 
-    private void SendUserToMainActivity()
-    {
-        Intent mainIntent = new Intent(SettingsActivity.this, MainActivity.class );
+    private void SendUserToMainActivity() {
+        Intent mainIntent = new Intent(SettingsActivity.this, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();

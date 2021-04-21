@@ -15,6 +15,18 @@
     <string name="phone_number">Phone number</string>
     <string name="CancelChatRequest">Cancel Chat Request</string>
     <string name="AcceptChatRequest">Accept chat request</string>
-    <string name="new_message">New message...</string>
+    <string name="new_message">New message…</string>
     <string name="there_are_no_chats">There are no chats :(</string>
+    <string name="you_can_choose_a_status_from_the_proposed">You can choose a status from the proposed…</string>
+    <string name="update">Update</string>
+    <string name="set_your_status">Set your status</string>
+
+    <string-array name="status_list">
+        <item> Do not disturb </item>
+        <item> Sleeping </item>
+        <item> Always online </item>
+        <item> Having fun </item>
+        <item> Busy </item>
+        <item> A lot of work </item>
+    </string-array>
 </resources>
