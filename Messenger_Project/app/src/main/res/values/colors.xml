@@ -17,6 +17,7 @@
     <color name="Gray">#903749</color>
     <color name="DarkGray">#53354a</color>
     <color name="ReallyGray">#BEBEBE</color>
+    <color name="blackyGray">#424242</color>
 
     <color name="teal_200">#FF5722</color>
     <color name="teal_700">#FF861A</color>
@@ -24,6 +25,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="Blue">#31326f</color>
     <color name="Turquoise">#9ddfd3</color>
-    <color name="Turquoise_Light">#dbf6e9</color>
+    <color name="whity_gray">#F0F0F0</color>
 
 </resources>

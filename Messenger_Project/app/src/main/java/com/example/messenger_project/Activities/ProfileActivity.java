@@ -3,11 +3,16 @@ package com.example.messenger_project.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.messenger_project.R;
@@ -22,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -30,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView userName;
     private TextView userStatus;
     private Button sendMessage, DeclineReqBtn;
+    private TextView goToInstagramProfileButton;
 
     private DatabaseReference userRef, chatRequestRef, contactsRef;
     private FirebaseAuth mAuth;
@@ -38,24 +45,42 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-        mAuth = FirebaseAuth.getInstance();
-        userRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        chatRequestRef = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
-        contactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
-
-        receiverUserID = getIntent().getExtras().get("visit_user_id").toString();
-        senderUserID = mAuth.getCurrentUser().getUid();
-
-        profileImage = findViewById(R.id.visit_profile_image);
-        userName = findViewById(R.id.visit_username);
-        userStatus = findViewById(R.id.visit_status);
-        sendMessage = findViewById(R.id.request_message_btn);
-        DeclineReqBtn = findViewById(R.id.decline_request);
-        currentState = "new";
-
+        InitializeContent();
         RetrieveUserInfo();
+
+        goToInstagramProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                userRef.child(senderUserID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.hasChild("instagram"))
+                        {
+                            String instagramRetrievingUrl = snapshot.child("instagram").getValue().toString();
+                            Uri uri = Uri.parse(instagramRetrievingUrl);
+
+                            Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+                            likeIng.setPackage("com.instagram.android");
+                            try {
+                                startActivity(likeIng);
+                            } catch (ActivityNotFoundException e) {
+                                Toasty.error(ProfileActivity.this, "Error", Toasty.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
+
     }
+
 
     private void RetrieveUserInfo()
     {
@@ -321,5 +346,23 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void InitializeContent() {
+        mAuth = FirebaseAuth.getInstance();
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        chatRequestRef = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
+        contactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
+
+        receiverUserID = getIntent().getExtras().get("visit_user_id").toString();
+        senderUserID = mAuth.getCurrentUser().getUid();
+
+        profileImage = findViewById(R.id.visit_profile_image);
+        userName = findViewById(R.id.visit_username);
+        userStatus = findViewById(R.id.visit_status);
+        sendMessage = findViewById(R.id.request_message_btn);
+        DeclineReqBtn = findViewById(R.id.decline_request);
+        goToInstagramProfileButton = findViewById(R.id.go_to_instagram);
+        currentState = "new";
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ProfileActivity"
     android:background="@drawable/shadow"
-    android:layout_margin="25dp">
+    android:layout_margin="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/visit_profile_image"
@@ -21,21 +21,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/visit_username"
-        android:text="username"
+        android:text="@string/username"
         android:layout_below="@+id/visit_profile_image"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:textAlignment="center"
         android:gravity="center_horizontal"
         android:textAllCaps="false"
-        android:textSize="18sp"/>
+        android:textSize="25sp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/visit_status"
-        android:text="status"
+        android:text="@string/status"
         android:layout_below="@+id/visit_username"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -46,28 +46,49 @@
         android:textSize="25sp"/>
 
     <Button
+        android:id="@+id/request_message_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/request_message_btn"
         android:layout_below="@+id/visit_status"
-        android:text="Send Message"
-        android:background="@drawable/inputs_orange"
-        android:textColor="@color/purple_700"
         android:layout_marginLeft="50dp"
+        android:layout_marginTop="21dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="15dp"/>
+        android:background="@drawable/inputs_orange"
+        android:text="@string/send_message"
+        android:textColor="@color/purple_700" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/decline_request"
         android:layout_below="@+id/request_message_btn"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:background="@drawable/inputs_orange"
         android:textColor="@color/purple_700"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="15dp"
         android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/instagram_view_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/decline_request"
+        android:src="@drawable/instagram"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:id="@+id/go_to_instagram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/instagram_view_button"
+        android:layout_below="@+id/decline_request"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/instagram_profile"
+        android:textSize="15sp"/>
 
 </RelativeLayout>

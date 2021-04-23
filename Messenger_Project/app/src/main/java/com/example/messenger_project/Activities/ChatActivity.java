@@ -39,7 +39,7 @@ public class ChatActivity extends AppCompatActivity
 {
     private String messageReceiverID, messageReceiverName, messageReceiverImage;
 
-    private TextView userName, userLastSeen;
+    private TextView userName, userLastSeen, noMessageView;
     private CircleImageView userProfImage;
     private ImageButton sendMessageBtn;
     private EditText messageInputText;
@@ -78,13 +78,33 @@ public class ChatActivity extends AppCompatActivity
         Picasso.get().load(messageReceiverImage).placeholder(R.drawable.man_user).into(userProfImage);
 
 
+        RootRef.child("Messages").child(currentUserId).child(messageReceiverID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists())
+                {
+                    noMessageView.setVisibility(View.VISIBLE);
+                    userMessagesList.setVisibility(View.INVISIBLE);
+
+                }
+                else {
+                    noMessageView.setVisibility(View.INVISIBLE);
+                    userMessagesList.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         RootRef.child("Messages").child(currentUserId).child(messageReceiverID)
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
                     {
                         Messages messages = snapshot.getValue(Messages.class);
-
                         messagesList.add(messages);
                         messageAdapter.notifyDataSetChanged();
                     }
@@ -144,6 +164,7 @@ public class ChatActivity extends AppCompatActivity
 
         sendMessageBtn = findViewById(R.id.send_chat_message_button);
         messageInputText = findViewById(R.id.input_chat_message);
+        noMessageView = findViewById(R.id.no_messages_view);
 
         messageAdapter = new MessageAdapter(messagesList);
         userMessagesList = findViewById(R.id.private_messenger_list);

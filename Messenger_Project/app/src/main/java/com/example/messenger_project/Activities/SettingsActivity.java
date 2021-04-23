@@ -6,15 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.flatdialoglibrary.dialog.FlatDialog;
 import com.example.messenger_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,8 +48,10 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText UserName, UserStatus;
     private Button UpdateInfo;
     private CircleImageView UserIcon;
+    private ImageView setInstagramprofileButton;
     private NiceSpinner statusSpinnerSelector;
-    private String photoURL;
+    private String photoURL, instagramURL;
+    private TextView instagramName;
 
     private FirebaseAuth mAuth;
     private String currentUserId, retrieveEmail, retrievePassword;
@@ -108,6 +113,41 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivityForResult(galleryIntent, GalleryPick);
             }
         });
+
+        setInstagramprofileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FlatDialog flatDialog = new FlatDialog(SettingsActivity.this);
+                flatDialog
+                        .setTitle("Instagram")
+                        .setFirstTextFieldHint("Enter your instagram name...")
+                        .setFirstButtonText("Save")
+                        .setSecondButtonText("Cancel")
+                        .setBackgroundColor(getResources().getColor(R.color.white))
+                        .setFirstButtonColor(getResources().getColor(R.color.purple_700))
+                        .setFirstButtonTextColor(getResources().getColor(R.color.whity_gray))
+                        .setSecondButtonColor(getResources().getColor(R.color.Gray))
+                        .setSecondButtonTextColor(getResources().getColor(R.color.whity_gray))
+                        .setTitleColor(getResources().getColor(R.color.purple_700))
+                        .setFirstTextFieldBorderColor(getResources().getColor(R.color.Gray))
+                        .setFirstTextFieldTextColor(getResources().getColor(R.color.blackyGray))
+                        .setFirstTextFieldHintColor(getResources().getColor(R.color.blackyGray))
+                        .withFirstButtonListner(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                instagramURL = "https://www.instagram.com/" + flatDialog.getFirstTextField() + "/";
+                                flatDialog.dismiss();
+                            }
+                        })
+                        .withSecondButtonListner(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                flatDialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
 
@@ -117,6 +157,8 @@ public class SettingsActivity extends AppCompatActivity {
         UserStatus = findViewById(R.id.set_user_status);
         UpdateInfo = findViewById(R.id.update_button);
         statusSpinnerSelector = findViewById(R.id.status_select_spinner);
+        setInstagramprofileButton = findViewById(R.id.instagram_set_profile);
+        instagramName = findViewById(R.id.instagram_name);
 
         setToolBar = findViewById(R.id.settings_toolbar);
         setSupportActionBar(setToolBar);
@@ -177,8 +219,6 @@ public class SettingsActivity extends AppCompatActivity {
         String setUserName = UserName.getText().toString();
         String setStatus = UserStatus.getText().toString();
 
-
-
         HashMap<String, String> ProfileMap = new HashMap<>();
         ProfileMap.put("uid", currentUserId);
         ProfileMap.put("name", setUserName);
@@ -186,6 +226,7 @@ public class SettingsActivity extends AppCompatActivity {
         ProfileMap.put("image", photoURL);
         ProfileMap.put("email", retrieveEmail);
         ProfileMap.put("password", retrievePassword);
+        ProfileMap.put("instagram", instagramURL);
 
         if (!TextUtils.isEmpty(setUserName)) {
             RootRef.child("Users").child(currentUserId).setValue(ProfileMap)
@@ -226,6 +267,13 @@ public class SettingsActivity extends AppCompatActivity {
                             UserStatus.setText(retrieveUserStatus);
 
                             UserName.setEnabled(false);
+                        }
+
+                        if((snapshot.exists()) && (snapshot.hasChild("instagram")))
+                        {
+                            String name = snapshot.child("instagram").getValue().toString();
+                            String[] words = name.split("/");
+                            instagramName.setText(words[3]);
                         }
                     }
 
