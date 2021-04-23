@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                userRef.child(senderUserID).addValueEventListener(new ValueEventListener() {
+                userRef.child(receiverUserID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.hasChild("instagram"))
@@ -98,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
                     userName.setText(Set_userName);
                     userStatus.setText(Set_userStatus);
 
-                   ManageChatRequest();
+                    ManageChatRequest();
                 }
                 else
                 {

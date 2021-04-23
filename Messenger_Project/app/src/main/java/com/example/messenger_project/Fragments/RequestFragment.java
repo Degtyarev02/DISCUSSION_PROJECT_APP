@@ -122,7 +122,7 @@ public class RequestFragment extends Fragment {
 
                                                         FlatDialog flatDialog = new FlatDialog(getContext());
                                                         flatDialog
-                                                                .setTitle(requestUserName + " Chat Request")
+                                                                .setTitle(requestUserName + " Wants to connect with you")
                                                                 .setFirstButtonText("Accept")
                                                                 .setSecondButtonText("Cancel")
                                                                 .setBackgroundColor(Color.parseColor("#FFFFFF"))
@@ -228,8 +228,95 @@ public class RequestFragment extends Fragment {
                                         });
                                     }
 
-                                    else
+                                    else if(type.equals("sent"))
                                     {
+                                        Button requestSentButton = holder.itemView.findViewById(R.id.request_accept_btn);
+                                        requestSentButton.setText("Req sent");
+                                        holder.itemView.findViewById(R.id.request_cancel_btn).setVisibility(View.INVISIBLE);
+
+                                        usersRef.child(list_user_id).addValueEventListener(new ValueEventListener()
+                                        {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot)
+                                            {
+                                                if(snapshot.hasChild("image"))
+                                                {
+
+                                                    final String requestUserImage = snapshot.child("image").getValue().toString();
+                                                    Picasso.get().load(requestUserImage).into(holder.profImage);
+                                                }
+
+                                                final String requestUserName = snapshot.child("name").getValue().toString();
+                                                final String requestUserStatus = snapshot.child("status").getValue().toString();
+
+                                                holder.userName.setText(requestUserName);
+                                                holder.userStatus.setText(requestUserStatus);
+
+                                                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v)
+                                                    {
+
+                                                        FlatDialog flatDialog = new FlatDialog(getContext());
+                                                        flatDialog
+                                                                .setTitle("You have sent a request to " + requestUserName)
+                                                                .setFirstButtonText("Cancel")
+                                                                .setSecondButtonText("Close")
+                                                                .setBackgroundColor(Color.parseColor("#FFFFFF"))
+                                                                .setFirstButtonColor(Color.parseColor("#2b2e4a"))
+                                                                .setFirstButtonTextColor(Color.parseColor("#f0f0f0"))
+                                                                .setSecondButtonColor(Color.parseColor("#903749"))
+                                                                .setSecondButtonTextColor(Color.parseColor("#f0f0f0"))
+                                                                .setTitleColor(Color.parseColor("#2b2e4a"))
+                                                                .withFirstButtonListner(new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View view)
+                                                                    {
+                                                                        chatReqRef.child(currentUserID).child(list_user_id)
+                                                                                .removeValue()
+                                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<Void> task)
+                                                                                    {
+                                                                                        if(task.isSuccessful())
+                                                                                        {
+                                                                                            chatReqRef.child(list_user_id).child(currentUserID)
+                                                                                                    .removeValue()
+                                                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                        @Override
+                                                                                                        public void onComplete(@NonNull Task<Void> task)
+                                                                                                        {
+                                                                                                            if(task.isSuccessful())
+                                                                                                            {
+                                                                                                                Toasty.success(getContext(), "You have canceled chat request", Toasty.LENGTH_SHORT).show();
+                                                                                                            }
+
+                                                                                                        }
+                                                                                                    });
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                        flatDialog.dismiss();
+                                                                    }
+                                                                })
+                                                                .withSecondButtonListner(new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View v) {
+                                                                        flatDialog.dismiss();
+                                                                    }
+                                                                })
+                                                                .show();
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error)
+                                            {
+
+                                            }
+                                        });
+
                                     }
                                 }
                             }

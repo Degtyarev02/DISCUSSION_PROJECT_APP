@@ -2,22 +2,22 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_profile_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/man_user" />
+            android:src="@drawable/man_user"
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,40 +52,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:gravity="start"
                 android:text="User_Status"
-                android:textAlignment="textStart"
                 android:textSize="16sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
                     android:id="@+id/request_accept_btn"
-                    android:text="Accept"
-                    android:textSize="14sp"
-                    android:textAllCaps="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/round"
                     android:backgroundTint="@color/purple_700"
-                    android:textColor="@color/white"
-                    android:visibility="invisible"
-                    />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:id="@+id/request_cancel_btn"
-                    android:text = "Cancel"
-                    android:textSize="14sp"
+                    android:text="Accept"
                     android:textAllCaps="false"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="invisible"/>
+
+                <Button
+                    android:id="@+id/request_cancel_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/round"
                     android:backgroundTint="@color/DarkGray"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    android:gravity="center"
                     android:textColor="@color/white"
-                    android:visibility="invisible"
-                    />
+                    android:textSize="14sp"
+                    android:visibility="invisible"/>
             </LinearLayout>
 
         </LinearLayout>

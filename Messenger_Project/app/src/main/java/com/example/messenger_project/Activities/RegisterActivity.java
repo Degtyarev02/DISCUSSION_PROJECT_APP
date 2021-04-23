@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import es.dmoral.toasty.Toasty;
 
@@ -112,7 +113,12 @@ public class RegisterActivity extends AppCompatActivity {
                         {
                             if(task.isSuccessful())
                             {
-                                deviceToken = FirebaseInstanceId.getInstance().getToken();
+                                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<String> task) {
+                                        deviceToken = task.getResult();
+                                    }
+                                });
                                 String userId = mAuth.getCurrentUser().getUid();
                                 RootReference.child("Users").child(userId).child("email").setValue(email);
                                 RootReference.child("Users").child(userId).child("password").setValue(password);

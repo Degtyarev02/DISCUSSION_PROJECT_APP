@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ProfileActivity"
+    android:layout_margin="10dp"
     android:background="@drawable/shadow"
-    android:layout_margin="10dp">
+    tools:context=".Activities.ProfileActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/visit_profile_image"
@@ -18,32 +18,32 @@
         android:src="@drawable/man" />
 
     <TextView
+        android:id="@+id/visit_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/visit_username"
-        android:text="@string/username"
         android:layout_below="@+id/visit_profile_image"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="70dp"
-        android:textAlignment="center"
         android:gravity="center_horizontal"
+        android:text="@string/username"
+        android:textAlignment="center"
         android:textAllCaps="false"
-        android:textSize="25sp"/>
+        android:textSize="25sp" />
 
     <TextView
+        android:id="@+id/visit_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/visit_status"
-        android:text="@string/status"
         android:layout_below="@+id/visit_username"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
         android:gravity="center_horizontal"
+        android:text="@string/status"
+        android:textAlignment="center"
         android:textAllCaps="false"
-        android:textSize="25sp"/>
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/request_message_btn"
@@ -51,44 +51,47 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/visit_status"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="40dp"
         android:layout_marginRight="50dp"
         android:background="@drawable/inputs_orange"
         android:text="@string/send_message"
         android:textColor="@color/purple_700" />
 
     <Button
+        android:id="@+id/decline_request"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/decline_request"
         android:layout_below="@+id/request_message_btn"
-        android:text="@string/cancel"
-        android:background="@drawable/inputs_orange"
-        android:textColor="@color/purple_700"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
         android:layout_marginTop="15dp"
-        android:visibility="invisible"/>
+        android:layout_marginRight="50dp"
+        android:background="@drawable/inputs_orange"
+        android:text="@string/cancel"
+        android:textColor="@color/purple_700"
+        android:visibility="invisible" />
 
-    <ImageView
-        android:id="@+id/instagram_view_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/decline_request"
-        android:src="@drawable/instagram"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        />
-
-    <TextView
-        android:id="@+id/go_to_instagram"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/instagram_view_button"
-        android:layout_below="@+id/decline_request"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/instagram_profile"
-        android:textSize="15sp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/instagram_view_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/instagram" />
+
+        <TextView
+            android:id="@+id/go_to_instagram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/instagram_profile"
+            android:textSize="15sp" />
+    </LinearLayout>
 </RelativeLayout>
