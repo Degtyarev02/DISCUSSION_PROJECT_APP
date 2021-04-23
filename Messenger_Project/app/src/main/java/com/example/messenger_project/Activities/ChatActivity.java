@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,14 +39,14 @@ public class ChatActivity extends AppCompatActivity
 {
     private String messageReceiverID, messageReceiverName, messageReceiverImage;
 
-    private TextView userName, userLastSeen;
+    private TextView userName, userLastSeen, noMessageView;
     private CircleImageView userProfImage;
     private ImageButton sendMessageBtn;
     private EditText messageInputText;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference Chats, RootRef;
-    private String currentUserId;
+    private DatabaseReference Chats, RootRef, UserRef;
+    private String currentUserId, currentUserName;
 
     private Toolbar chatToolBar;
 
@@ -68,11 +69,35 @@ public class ChatActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         InitializeControllers();
+        GetUserInfo();
+
         userName.setText(messageReceiverName);
         Picasso.get().load(messageReceiverImage).placeholder(R.drawable.man_user).into(userProfImage);
 
+
+        RootRef.child("Messages").child(currentUserId).child(messageReceiverID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists())
+                {
+                    noMessageView.setVisibility(View.VISIBLE);
+                    userMessagesList.setVisibility(View.INVISIBLE);
+
+                }
+                else {
+                    noMessageView.setVisibility(View.INVISIBLE);
+                    userMessagesList.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         RootRef.child("Messages").child(currentUserId).child(messageReceiverID)
                 .addChildEventListener(new ChildEventListener() {
@@ -113,7 +138,10 @@ public class ChatActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                SendMessage();
+                String message = messageInputText.getText().toString();
+                if(!message.isEmpty()) {
+                    SendMessage();
+                }
             }
         });
     }
@@ -137,6 +165,7 @@ public class ChatActivity extends AppCompatActivity
 
         sendMessageBtn = findViewById(R.id.send_chat_message_button);
         messageInputText = findViewById(R.id.input_chat_message);
+        noMessageView = findViewById(R.id.no_messages_view);
 
         messageAdapter = new MessageAdapter(messagesList);
         userMessagesList = findViewById(R.id.private_messenger_list);
@@ -145,6 +174,25 @@ public class ChatActivity extends AppCompatActivity
         userMessagesList.setAdapter(messageAdapter);
     }
 
+
+    private void GetUserInfo()
+    {
+        UserRef.child(currentUserId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                if(snapshot.exists())
+                {
+                    currentUserName = snapshot.child("name").getValue().toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
     private void SendMessage()
@@ -160,6 +208,7 @@ public class ChatActivity extends AppCompatActivity
                 messageTextBody.put("message", messagetext);
                 messageTextBody.put("type", "text");
                 messageTextBody.put("from", currentUserId);
+                messageTextBody.put("name", currentUserName);
 
                 userMessageKeyRef.updateChildren(messageTextBody);
 

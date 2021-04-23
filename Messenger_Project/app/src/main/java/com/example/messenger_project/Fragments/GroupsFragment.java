@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.messenger_project.Activities.GroupChatActivity;
@@ -33,12 +34,12 @@ public class GroupsFragment extends Fragment {
     private ArrayAdapter<String> array_adapter;
     private ArrayList<String> list_of_groups = new ArrayList<>();
 
+    private ImageView emptyGroups;
+
     private DatabaseReference GroupRef;
 
 
     public GroupsFragment() {}
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,9 +85,19 @@ public class GroupsFragment extends Fragment {
                     set.add(((DataSnapshot)iterator.next()).getKey());
                 }
 
-                list_of_groups.clear();
-                list_of_groups.addAll(set);
-                array_adapter.notifyDataSetChanged();
+                if (set == null || set.isEmpty())
+                {
+                    emptyGroups.setVisibility(View.VISIBLE);
+                    list_view.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    emptyGroups.setVisibility(View.INVISIBLE);
+                    list_view.setVisibility(View.VISIBLE);
+                    list_of_groups.clear();
+                    list_of_groups.addAll(set);
+                    array_adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -99,6 +110,7 @@ public class GroupsFragment extends Fragment {
 
     private void InitializeFields()
     {
+        emptyGroups = groupView.findViewById(R.id.empty_group_chats);
         list_view = groupView.findViewById(R.id.list_view);
         array_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, list_of_groups);
         list_view.setAdapter(array_adapter);

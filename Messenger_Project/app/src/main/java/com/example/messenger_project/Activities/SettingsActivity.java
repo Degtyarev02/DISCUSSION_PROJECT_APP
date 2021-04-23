@@ -6,14 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.flatdialoglibrary.dialog.FlatDialog;
 import com.example.messenger_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +35,9 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.angmarch.views.NiceSpinner;
+import org.angmarch.views.OnSpinnerItemSelectedListener;
+
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,8 +48,10 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText UserName, UserStatus;
     private Button UpdateInfo;
     private CircleImageView UserIcon;
-
-    private String photoURL;
+    private ImageView setInstagramprofileButton;
+    private NiceSpinner statusSpinnerSelector;
+    private String photoURL, instagramURL;
+    private TextView instagramName;
 
     private FirebaseAuth mAuth;
     private String currentUserId, retrieveEmail, retrievePassword;
@@ -66,21 +75,27 @@ public class SettingsActivity extends AppCompatActivity {
         RootRef.child("Users").child(currentUserId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot)
-                    {
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
                         retrieveEmail = snapshot.child("email").getValue().toString();
                         retrievePassword = snapshot.child("password").getValue().toString();
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error)
-                    {
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
 
         Initialize();
         RetrieveUserInfo();
+
+        statusSpinnerSelector.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
+            @Override
+            public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
+                String item = parent.getSelectedItem().toString();
+                UserStatus.setText(item);
+            }
+        });
 
         UpdateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,15 +113,52 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivityForResult(galleryIntent, GalleryPick);
             }
         });
+
+        setInstagramprofileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FlatDialog flatDialog = new FlatDialog(SettingsActivity.this);
+                flatDialog
+                        .setTitle("Instagram")
+                        .setFirstTextFieldHint("Enter your instagram name...")
+                        .setFirstButtonText("Save")
+                        .setSecondButtonText("Cancel")
+                        .setBackgroundColor(getResources().getColor(R.color.white))
+                        .setFirstButtonColor(getResources().getColor(R.color.purple_700))
+                        .setFirstButtonTextColor(getResources().getColor(R.color.whity_gray))
+                        .setSecondButtonColor(getResources().getColor(R.color.Gray))
+                        .setSecondButtonTextColor(getResources().getColor(R.color.whity_gray))
+                        .setTitleColor(getResources().getColor(R.color.purple_700))
+                        .setFirstTextFieldBorderColor(getResources().getColor(R.color.Gray))
+                        .setFirstTextFieldTextColor(getResources().getColor(R.color.blackyGray))
+                        .setFirstTextFieldHintColor(getResources().getColor(R.color.blackyGray))
+                        .withFirstButtonListner(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                instagramURL = "https://www.instagram.com/" + flatDialog.getFirstTextField() + "/";
+                                flatDialog.dismiss();
+                            }
+                        })
+                        .withSecondButtonListner(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                flatDialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
 
-    private void Initialize()
-    {
+    private void Initialize() {
         UserIcon = findViewById(R.id.profile_image);
         UserName = findViewById(R.id.set_username);
         UserStatus = findViewById(R.id.set_user_status);
         UpdateInfo = findViewById(R.id.update_button);
+        statusSpinnerSelector = findViewById(R.id.status_select_spinner);
+        setInstagramprofileButton = findViewById(R.id.instagram_set_profile);
+        instagramName = findViewById(R.id.instagram_name);
 
         setToolBar = findViewById(R.id.settings_toolbar);
         setSupportActionBar(setToolBar);
@@ -120,8 +172,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==GalleryPick  &&  resultCode==RESULT_OK  &&  data!=null)
-        {
+        if (requestCode == GalleryPick && resultCode == RESULT_OK && data != null) {
             Uri ImageUri = data.getData();
 
             CropImage.activity(ImageUri)
@@ -130,22 +181,18 @@ public class SettingsActivity extends AppCompatActivity {
                     .start(this);
         }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
-        {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
-            if (resultCode == RESULT_OK)
-            {
+            if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
 
                 final StorageReference filePath = userProfImageRef.child(currentUserId + ".jpg");
 
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
-                    {
-                        if (task.isSuccessful())
-                        {
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
                             Toasty.success(SettingsActivity.this, "Profile Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
 
                             final String downloaedUrl = task.getResult().getStorage().getDownloadUrl().toString();
@@ -168,21 +215,20 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    private void UpdateSettings()
-    {
+    private void UpdateSettings() {
         String setUserName = UserName.getText().toString();
         String setStatus = UserStatus.getText().toString();
 
         HashMap<String, String> ProfileMap = new HashMap<>();
-            ProfileMap.put("uid", currentUserId);
-            ProfileMap.put("name", setUserName);
-            ProfileMap.put("status", setStatus);
-            ProfileMap.put("image", photoURL);
-            ProfileMap.put("email", retrieveEmail);
-            ProfileMap.put("password", retrievePassword);
+        ProfileMap.put("uid", currentUserId);
+        ProfileMap.put("name", setUserName);
+        ProfileMap.put("status", setStatus);
+        ProfileMap.put("image", photoURL);
+        ProfileMap.put("email", retrieveEmail);
+        ProfileMap.put("password", retrievePassword);
+        ProfileMap.put("instagram", instagramURL);
 
-        if(!TextUtils.isEmpty(setUserName))
-        {
+        if (!TextUtils.isEmpty(setUserName)) {
             RootRef.child("Users").child(currentUserId).setValue(ProfileMap)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -193,19 +239,16 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         }
                     });
-        }
-        else Toasty.error(SettingsActivity.this, "Please enter your name", Toast.LENGTH_SHORT).show();
+        } else
+            Toasty.error(SettingsActivity.this, "Please enter your name", Toast.LENGTH_SHORT).show();
     }
 
-    private void RetrieveUserInfo()
-    {
+    private void RetrieveUserInfo() {
         RootRef.child("Users").child(currentUserId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot)
-                    {
-                        if((snapshot.exists()) && (snapshot.hasChild("name") && snapshot.hasChild("image")))
-                        {
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if ((snapshot.exists()) && (snapshot.hasChild("name") && snapshot.hasChild("image"))) {
 
                             String retrieveUserName = snapshot.child("name").getValue().toString();
                             String retrieveUserStatus = snapshot.child("status").getValue().toString();
@@ -216,9 +259,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Picasso.get().load(photoURL).into(UserIcon);
 
                             UserName.setEnabled(false);
-                        }
-                        else if((snapshot.exists()) && (snapshot.hasChild("name")))
-                        {
+                        } else if ((snapshot.exists()) && (snapshot.hasChild("name"))) {
                             String retrieveUserName = snapshot.child("name").getValue().toString();
                             String retrieveUserStatus = snapshot.child("status").getValue().toString();
 
@@ -227,19 +268,24 @@ public class SettingsActivity extends AppCompatActivity {
 
                             UserName.setEnabled(false);
                         }
+
+                        if((snapshot.exists()) && (snapshot.hasChild("instagram")))
+                        {
+                            String name = snapshot.child("instagram").getValue().toString();
+                            String[] words = name.split("/");
+                            instagramName.setText(words[3]);
+                        }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error)
-                    {
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
     }
 
-    private void SendUserToMainActivity()
-    {
-        Intent mainIntent = new Intent(SettingsActivity.this, MainActivity.class );
+    private void SendUserToMainActivity() {
+        Intent mainIntent = new Intent(SettingsActivity.this, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();

@@ -18,14 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messenger_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import es.dmoral.toasty.Toasty;
 
@@ -37,10 +33,10 @@ public class LoginActivity extends AppCompatActivity {
     private TextView ForgetPassword;
     private CheckBox ShowPassword;
 
-    private FirebaseAuth MyAuth;
-    private DatabaseReference userRef;
-    private String deviceToken;
+    private TextInputLayout login_layout;
+    private TextInputLayout password_layout;
 
+    private FirebaseAuth MyAuth;
     private ProgressDialog LoggedBar;
     public Animation animAlpha;
 
@@ -51,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         MyAuth = FirebaseAuth.getInstance();
-        userRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         InitializeField();
 
@@ -76,8 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     private void AllowUserToLogin() {
         String email = UserEmail.getText().toString();
         String password = UserPassword.getText().toString();
-
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(email) || (TextUtils.isEmpty(password))) {
             Toasty.error(this, "Please enter Email and Password", Toast.LENGTH_SHORT).show();
         } else {
 
@@ -87,24 +81,10 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                String currentUserId = MyAuth.getCurrentUser().getUid();
-                                deviceToken = FirebaseInstanceId.getInstance().getToken();
-                                userRef.child(currentUserId).child("device_token")
-                                        .setValue(deviceToken)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()) {
-                                                    Toasty.success(LoginActivity.this, "Logged in Successful!", Toast.LENGTH_LONG).show();
-                                                    SendUserToMainActivity();
-                                                }
-                                            }
-                                        });
-
+                                Toasty.success(LoginActivity.this, "Logged in Successful!", Toast.LENGTH_LONG).show();
+                                SendUserToMainActivity();
                             } else {
                                 String message = task.getException().toString();
-
-
                                 Toasty.error(LoginActivity.this, "Error" + message, Toast.LENGTH_LONG).show();
                             }
                         }
@@ -117,13 +97,13 @@ public class LoginActivity extends AppCompatActivity {
     {
         LoginBtn = findViewById(R.id.login_button);
 //        PhoneLoginBtn = findViewById(R.id.phone_login_button);
-
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.button);
         UserEmail = findViewById(R.id.login_email);
         UserPassword = findViewById(R.id.login_password);
 
         NeedNewAccount = findViewById(R.id.need_new_account);
         ForgetPassword = findViewById(R.id.forget_password_link);
+
     }
 
     private void SendUserToMainActivity() {

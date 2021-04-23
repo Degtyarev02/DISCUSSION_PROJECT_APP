@@ -6,26 +6,47 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/message_profile_image"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/man_user"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="6dp"
         android:layout_marginLeft="10dp"
         />
 
+<LinearLayout
+    android:id="@+id/Receiver_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_toRightOf="@+id/message_profile_image"
+    android:background="@drawable/receiver_messages_layout"
+    android:layout_marginTop="15dp">
     <TextView
-        android:id="@+id/receiver_message_text"
+        android:id="@+id/receiver_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="15dp"
-        android:layout_toRightOf="@id/message_profile_image"
-        android:background="@drawable/receiver_messages_layout"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/black"
+        android:text="Receiver Name"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/receiver_message_text"
+        android:layout_below="@+id/receiver_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:text="Receiver Messages"
-        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
         android:textSize="17sp" />
+</LinearLayout>
 
     <TextView
         android:id="@+id/sender_message_text"
@@ -34,7 +55,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/sender_messages_layout"
         android:padding="10dp"

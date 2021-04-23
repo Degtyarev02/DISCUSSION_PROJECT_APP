@@ -9,5 +9,15 @@
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:listitem="@android:layout/simple_list_item_1"/>
+
+    <ImageView
+        android:id="@+id/empty_group_chats"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/empty_chat"
+        android:visibility="invisible"/>
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,8 +37,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView senderMessageText, receiverMessageText;
+        public TextView senderMessageText, receiverMessageText, receiver_username;
         public CircleImageView receiverProfileImage;
+        public LinearLayout receiverLayout;
 
         public MessageViewHolder(@NonNull View itemView)
         {
@@ -46,6 +48,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             senderMessageText = itemView.findViewById(R.id.sender_message_text);
             receiverMessageText = itemView.findViewById(R.id.receiver_message_text);
             receiverProfileImage = itemView.findViewById(R.id.message_profile_image);
+            receiver_username = itemView.findViewById(R.id.receiver_username);
+            receiverLayout = itemView.findViewById(R.id.Receiver_layout);
 
         }
     }
@@ -96,6 +100,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             holder.senderMessageText.setVisibility(View.INVISIBLE);
             holder.receiverMessageText.setVisibility(View.INVISIBLE);
             holder.receiverProfileImage.setVisibility(View.INVISIBLE);
+            holder.receiver_username.setVisibility(View.INVISIBLE);
+            holder.receiverLayout.setVisibility(View.INVISIBLE);
 
             if(fromUserId.equals(messageSenderID))
             {
@@ -109,9 +115,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                 holder.receiverMessageText.setVisibility(View.VISIBLE);
                 holder.receiverProfileImage.setVisibility(View.VISIBLE);
+                holder.receiver_username.setVisibility(View.VISIBLE);
+                holder.receiverLayout.setVisibility(View.VISIBLE);
 
                 holder.receiverMessageText.setBackgroundResource(R.drawable.receiver_messages_layout);
                 holder.receiverMessageText.setText(messages.getMessage());
+                holder.receiver_username.setText(messages.getName());
             }
         }
 
