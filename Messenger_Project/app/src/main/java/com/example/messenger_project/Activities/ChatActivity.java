@@ -80,9 +80,9 @@ public class ChatActivity extends AppCompatActivity
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
                     {
                         Messages messages = snapshot.getValue(Messages.class);
-
                         messagesList.add(messages);
                         messageAdapter.notifyDataSetChanged();
+                        userMessagesList.smoothScrollToPosition(userMessagesList.getAdapter().getItemCount());
                     }
 
                     @Override

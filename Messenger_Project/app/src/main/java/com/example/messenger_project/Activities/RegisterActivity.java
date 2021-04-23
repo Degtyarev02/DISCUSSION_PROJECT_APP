@@ -17,11 +17,14 @@ import android.widget.Toast;
 
 import com.example.messenger_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import es.dmoral.toasty.Toasty;
 
@@ -30,11 +33,11 @@ public class RegisterActivity extends AppCompatActivity {
     private Button RegisterBtn, HaveAccount;
     private EditText NewEmail, NewPassword, ConfirmPassword;
     private TextView PhoneAuth;
-
     private FirebaseAuth mAuth;
     private DatabaseReference RootReference;
     private ProgressDialog progressBar;
-    public Animation animAlpha;
+    private Animation animAlpha;
+    private String deviceToken;
 
 
 
@@ -109,9 +112,12 @@ public class RegisterActivity extends AppCompatActivity {
                         {
                             if(task.isSuccessful())
                             {
+                                deviceToken = FirebaseInstanceId.getInstance().getToken();
                                 String userId = mAuth.getCurrentUser().getUid();
                                 RootReference.child("Users").child(userId).child("email").setValue(email);
                                 RootReference.child("Users").child(userId).child("password").setValue(password);
+                                RootReference.child("Users").child(userId).child("device_token")
+                                        .setValue(deviceToken);
                                 SendUserToMainActivity();
                                 Toasty.success(RegisterActivity.this, "Successful!", Toast.LENGTH_LONG).show();
                                 progressBar.dismiss();
