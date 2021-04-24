@@ -121,7 +121,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         if(fromMessageType.equals("text"))
         {
 
-
             if(fromUserId.equals(messageSenderID))
             {
                 holder.senderLayout.setVisibility(View.VISIBLE);
@@ -139,6 +138,28 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                 holder.receiverMessageText.setText(messages.getMessage());
                 holder.receiver_username.setText(messages.getName());
+                holder.receiverMessageTime.setText(messages.getTime());
+            }
+        }
+        else if(fromMessageType.equals("image"))
+        {
+            if(fromUserId.equals(messageSenderID))
+            {
+                holder.senderLayout.setVisibility(View.VISIBLE);
+                holder.senderMessageText.setText("Image");/*
+                Picasso.get().load(messages.getMessage()).into(holder.messageSenderImage);*/
+                holder.senderMessageTime.setText(messages.getTime());
+            }
+            else
+            {
+                holder.receiverLayout.setVisibility(View.VISIBLE);
+                holder.receiverProfileImage.setVisibility(View.VISIBLE);
+
+                holder.receiverMessageText.setText("Image");
+                holder.receiver_username.setText(messages.getName());
+
+                Picasso.get().load(messages.getMessage()).into(holder.messageReceiverImage);
+
                 holder.receiverMessageTime.setText(messages.getTime());
             }
         }
