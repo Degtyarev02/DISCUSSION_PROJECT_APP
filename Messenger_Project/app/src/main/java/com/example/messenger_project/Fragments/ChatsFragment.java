@@ -122,7 +122,7 @@ public class ChatsFragment extends Fragment
                                     final String retUserStatus = snapshot.child("status").getValue().toString();
 
                                     holder.userName.setText(retUserName);
-                                    holder.userStatus.setText("Last seen: " + "\n" + "Date " + " Time");
+                                    holder.userStatus.setText("Last seen: " + "Date " + "Time");
 
                                     holder.itemView.setOnClickListener(new View.OnClickListener()
                                     {
@@ -153,7 +153,7 @@ public class ChatsFragment extends Fragment
                     @Override
                     public ChatsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
                     {
-                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.users_dispaly_layout, parent, false);
+                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_display_layout, parent, false);
                         return new ChatsViewHolder(view);
                     }
                 };

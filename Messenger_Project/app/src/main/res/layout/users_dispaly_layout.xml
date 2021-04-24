@@ -7,65 +7,53 @@
     android:layout_marginRight="10dp">
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:padding="5dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_profile_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/man_user"
-            android:layout_marginTop="5dp"/>
+            android:layout_gravity="center_vertical"/>
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/user_profile_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/user_profile_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="start"
-                    android:text="User_Name"
-                    android:textAlignment="textStart"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/user_online_status"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp" />
-            </LinearLayout>
-
+                android:gravity="start"
+                android:text="User_Name"
+                android:textAlignment="textStart"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
             <TextView
                 android:id="@+id/user_profile_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:text="User_Status"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp">
 
                 <Button
                     android:id="@+id/request_accept_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
                     android:background="@drawable/round"
                     android:backgroundTint="@color/purple_700"
                     android:text="Accept"
@@ -77,21 +65,25 @@
 
                 <Button
                     android:id="@+id/request_cancel_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
                     android:background="@drawable/round"
                     android:backgroundTint="@color/DarkGray"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
                     android:text="Cancel"
                     android:textAllCaps="false"
-                    android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:visibility="invisible"/>
-            </LinearLayout>
 
+            </LinearLayout>
         </LinearLayout>
+
+
 
     </LinearLayout>
 
 </RelativeLayout>
+
+
