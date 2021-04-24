@@ -141,13 +141,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.receiverMessageTime.setText(messages.getTime());
             }
         }
+
         else if(fromMessageType.equals("image"))
         {
             if(fromUserId.equals(messageSenderID))
             {
                 holder.senderLayout.setVisibility(View.VISIBLE);
-                holder.senderMessageText.setText("Image");/*
-                Picasso.get().load(messages.getMessage()).into(holder.messageSenderImage);*/
+
+                holder.senderMessageText.setText("Image");
+                Picasso.get().load(messages.getMessage()).into(holder.messageSenderImage);
                 holder.senderMessageTime.setText(messages.getTime());
             }
             else
@@ -171,8 +173,5 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     {
         return userMessagesList.size();
     }
-
-
-
 
 }

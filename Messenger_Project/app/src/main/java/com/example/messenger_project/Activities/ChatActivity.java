@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -171,6 +170,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 DatabaseReference userMessageKeyRef = RootRef.child("Messages")
                         .child(currentUserId).child(messageReceiverID).push();
+
                 String messagePushId = userMessageKeyRef.getKey();
 
                 StorageReference filePath = storageReference.child(messagePushId + "." + "jpg");
@@ -189,7 +189,7 @@ public class ChatActivity extends AppCompatActivity {
                             Uri downloadUri = task.getResult();
                             myUrl = downloadUri.toString();
 
-                            Map<String, Object> messageTextBody = new HashMap<String, Object>();
+                            Map<String, Object> messageTextBody = new HashMap<>();
                             messageTextBody.put("message", myUrl);
                             messageTextBody.put("filename", fileURI.getLastPathSegment());
                             messageTextBody.put("type", selectedFileType);
@@ -214,6 +214,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void RetrieveMessageList() {
+
         RootRef.child("Messages").child(currentUserId).child(messageReceiverID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -334,8 +335,9 @@ public class ChatActivity extends AppCompatActivity {
                     .child(currentUserId).child(messageReceiverID).push();
             String messagePushId = userMessageKeyRef.getKey();
 
-            Map<String, Object> messageTextBody = new HashMap<String, Object>();
+            Map<String, Object> messageTextBody = new HashMap<>();
             messageTextBody.put("message", messagetext);
+            messageTextBody.put("filename", "text Message");
             messageTextBody.put("type", "text");
             messageTextBody.put("from", currentUserId);
             messageTextBody.put("to", messageReceiverID);
