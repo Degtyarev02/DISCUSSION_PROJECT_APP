@@ -136,6 +136,7 @@ public class SettingsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 instagramURL = "https://www.instagram.com/" + flatDialog.getFirstTextField() + "/";
+                                instagramName.setText(flatDialog.getFirstTextField());
                                 flatDialog.dismiss();
                             }
                         })

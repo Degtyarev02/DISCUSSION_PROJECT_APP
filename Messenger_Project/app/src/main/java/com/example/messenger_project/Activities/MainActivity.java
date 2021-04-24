@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         {
             updateUserStatus("online");
             VerifyExistenceUser();
+
         }
     }
 

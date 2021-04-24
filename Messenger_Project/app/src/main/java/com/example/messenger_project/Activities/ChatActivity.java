@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.messenger_project.Adapters.MessageAdapter;
@@ -47,6 +48,7 @@ public class ChatActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private DatabaseReference Chats, RootRef, UserRef;
     private String currentUserId, currentUserName;
+    private ImageView greenDotOnlineStatus;
 
     private Toolbar chatToolBar;
 
@@ -76,6 +78,7 @@ public class ChatActivity extends AppCompatActivity
 
         userName.setText(messageReceiverName);
         Picasso.get().load(messageReceiverImage).placeholder(R.drawable.man_user).into(userProfImage);
+
 
 
         RootRef.child("Messages").child(currentUserId).child(messageReceiverID).addValueEventListener(new ValueEventListener() {
@@ -146,6 +149,13 @@ public class ChatActivity extends AppCompatActivity
         });
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        displayLastSeen();
+    }
+
     private void InitializeControllers()
     {
         chatToolBar = findViewById(R.id.chat_toolbar);
@@ -162,6 +172,7 @@ public class ChatActivity extends AppCompatActivity
         userProfImage = findViewById(R.id.custom_profile_image);
         userName = findViewById(R.id.custom_prof_name);
         userLastSeen = findViewById(R.id.custom_prof_online_status);
+        greenDotOnlineStatus = findViewById(R.id.green_dot_chatbar_online_status);
 
         sendMessageBtn = findViewById(R.id.send_chat_message_button);
         messageInputText = findViewById(R.id.input_chat_message);
@@ -218,6 +229,42 @@ public class ChatActivity extends AppCompatActivity
                 receiver_to_sender_message.updateChildren(messageTextBody);
                 messageInputText.setText("");
             }
+    }
+
+    private void displayLastSeen()
+    {
+        UserRef.child(messageReceiverID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("userState").hasChild("State"))
+                {
+                    String state = snapshot.child("userState").child("State").getValue().toString();
+                    String date = snapshot.child("userState").child("Date").getValue().toString();
+                    String time = snapshot.child("userState").child("Time").getValue().toString();
+
+                    if(state.equals("online"))
+                    {
+                        userLastSeen.setText("Online");
+                        greenDotOnlineStatus.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        String offline = "Last seen: " + date + " " + time;
+                        userLastSeen.setText(offline);
+                        greenDotOnlineStatus.setVisibility(View.INVISIBLE);
+                    }
+                }
+                else
+                {
+                    userLastSeen.setText("Offline");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

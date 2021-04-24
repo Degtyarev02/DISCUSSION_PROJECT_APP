@@ -117,6 +117,18 @@ public class ContactsFragment extends Fragment {
                             holder.userName.setText(profileName);
                             holder.userStatus.setText(profileStatus);
                         }
+                        if(snapshot.child("userState").hasChild("State"))
+                        {
+                            String state = snapshot.child("userState").child("State").getValue().toString();
+                            if(state.equals("online"))
+                            {
+                                holder.greenDotOnlineStatus.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                holder.greenDotOnlineStatus.setVisibility(View.INVISIBLE);
+                            }
+                        }
                     }
 
                     @Override
@@ -144,6 +156,8 @@ public class ContactsFragment extends Fragment {
     {
         TextView userName, userStatus;
         CircleImageView profImage;
+        ImageView greenDotOnlineStatus;
+
 
         public ContactsViewHolder(@NonNull View itemView)
         {
@@ -152,6 +166,7 @@ public class ContactsFragment extends Fragment {
             userName = itemView.findViewById(R.id.user_profile_name);
             userStatus = itemView.findViewById(R.id.user_profile_status);
             profImage = itemView.findViewById(R.id.user_profile_image);
+            greenDotOnlineStatus = itemView.findViewById(R.id.online_status_dot);
         }
     }
 

@@ -118,11 +118,36 @@ public class ChatsFragment extends Fragment
                                         retUserImage[0] = snapshot.child("image").getValue().toString();
                                         Picasso.get().load(retUserImage[0]).into(holder.profImage);
                                     }
+
                                     final String retUserName = snapshot.child("name").getValue().toString();
                                     final String retUserStatus = snapshot.child("status").getValue().toString();
 
                                     holder.userName.setText(retUserName);
-                                    holder.userStatus.setText("Last seen: " + "Date " + "Time");
+
+                                    if(snapshot.child("userState").hasChild("State"))
+                                    {
+                                        String state = snapshot.child("userState").child("State").getValue().toString();
+                                        String date = snapshot.child("userState").child("Date").getValue().toString();
+                                        String time = snapshot.child("userState").child("Time").getValue().toString();
+
+                                        if(state.equals("online"))
+                                        {
+                                            holder.userStatus.setText("Online");
+                                            holder.greenDotOnlineStatus.setVisibility(View.VISIBLE);
+                                        }
+                                        else
+                                        {
+                                            String offline = "Last seen: " + date + " " + time;
+                                            holder.userStatus.setText(offline);
+                                            holder.greenDotOnlineStatus.setVisibility(View.INVISIBLE);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        holder.userStatus.setText("Offline");
+                                    }
+
+
 
                                     holder.itemView.setOnClickListener(new View.OnClickListener()
                                     {
@@ -168,6 +193,7 @@ public class ChatsFragment extends Fragment
     {
         TextView userName, userStatus;
         CircleImageView profImage;
+        ImageView greenDotOnlineStatus;
 
         public ChatsViewHolder(@NonNull View itemView)
         {
@@ -175,6 +201,7 @@ public class ChatsFragment extends Fragment
             userName = itemView.findViewById(R.id.user_profile_name);
             userStatus = itemView.findViewById(R.id.user_profile_status);
             profImage = itemView.findViewById(R.id.user_profile_image);
+            greenDotOnlineStatus = itemView.findViewById(R.id.online_status_dot);
         }
     }
 }
