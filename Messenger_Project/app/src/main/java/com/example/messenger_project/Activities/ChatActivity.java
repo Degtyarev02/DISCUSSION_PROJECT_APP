@@ -29,7 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +44,13 @@ public class ChatActivity extends AppCompatActivity
 
     private TextView userName, userLastSeen, noMessageView;
     private CircleImageView userProfImage;
-    private ImageButton sendMessageBtn;
+    private ImageView sendMessageBtn, sendFileMessageButton;
     private EditText messageInputText;
 
     private FirebaseAuth mAuth;
     private DatabaseReference Chats, RootRef, UserRef;
     private String currentUserId, currentUserName;
+    private String saveCurrentTime, saveCurrentDate;;;
     private ImageView greenDotOnlineStatus;
 
     private Toolbar chatToolBar;
@@ -174,6 +177,7 @@ public class ChatActivity extends AppCompatActivity
         userLastSeen = findViewById(R.id.custom_prof_online_status);
         greenDotOnlineStatus = findViewById(R.id.green_dot_chatbar_online_status);
 
+        sendFileMessageButton = findViewById(R.id.send_file_ImageButton);
         sendMessageBtn = findViewById(R.id.send_chat_message_button);
         messageInputText = findViewById(R.id.input_chat_message);
         noMessageView = findViewById(R.id.no_messages_view);
@@ -183,6 +187,14 @@ public class ChatActivity extends AppCompatActivity
         linearLayoutManager = new LinearLayoutManager(this);
         userMessagesList.setLayoutManager(linearLayoutManager);
         userMessagesList.setAdapter(messageAdapter);
+
+        Calendar calendar = Calendar.getInstance();
+
+        SimpleDateFormat currentDate = new SimpleDateFormat("MMM d");
+        saveCurrentDate = currentDate.format(calendar.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm");
+        saveCurrentTime = currentTime.format(calendar.getTime());
     }
 
 
@@ -219,7 +231,10 @@ public class ChatActivity extends AppCompatActivity
                 messageTextBody.put("message", messagetext);
                 messageTextBody.put("type", "text");
                 messageTextBody.put("from", currentUserId);
+                messageTextBody.put("to", messageReceiverID);
                 messageTextBody.put("name", currentUserName);
+                messageTextBody.put("messageID", messagePushId);
+                messageTextBody.put("time", saveCurrentTime);
 
                 userMessageKeyRef.updateChildren(messageTextBody);
 

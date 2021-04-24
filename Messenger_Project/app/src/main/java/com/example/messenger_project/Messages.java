@@ -2,22 +2,29 @@ package com.example.messenger_project;
 
 public class Messages
 {
-    private String from, message, type, name;
+    private String from;
+    private String message;
+    private String type;
+    private String name;
+    private String to;
+    private String messageID;
+
 
     public Messages()
     {
 
     }
 
-    public Messages(String from, String message, String type, String name)
-    {
+
+    public Messages(String from, String message, String type, String name, String to, String messageID, String time) {
         this.from = from;
         this.message = message;
         this.type = type;
         this.name = name;
+        this.to = to;
+        this.messageID = messageID;
+        this.time = time;
     }
-
-
 
     public String getFrom() {
         return from;
@@ -50,4 +57,32 @@ public class Messages
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public String getMessageID() {
+        return messageID;
+    }
+
+    public void setMessageID(String messageID) {
+        this.messageID = messageID;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    private String time;
+
+
 }

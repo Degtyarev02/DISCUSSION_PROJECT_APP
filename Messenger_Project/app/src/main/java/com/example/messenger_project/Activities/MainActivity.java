@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TabsAccessorAdapter mTabsAccAdapter;
-    private String currentUserID;
+    private String currentUserID, saveCurrentTime, saveCurrentDate;;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUserStatus(String state)
     {
-        String saveCurrentTime, saveCurrentDate;
         Calendar calendar = Calendar.getInstance();
 
         SimpleDateFormat currentDate = new SimpleDateFormat("MMM d");
