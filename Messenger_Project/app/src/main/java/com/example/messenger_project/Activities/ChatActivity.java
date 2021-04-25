@@ -24,6 +24,8 @@ import com.example.messenger_project.Messages;
 import com.example.messenger_project.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -33,8 +35,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -139,13 +143,21 @@ public class ChatActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 selectedFileType = "pdf";
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                intent.setType("application/pdf");
+                                startActivityForResult(intent.createChooser(intent, "Select PDF file"), 5);
                                 flatDialog.dismiss();
                             }
                         })
                         .withThirdButtonListner(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                selectedFileType = "doc";
+                                selectedFileType = "docx";
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                intent.setType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                                startActivityForResult(Intent.createChooser(intent, "Select MS Word File"), 5);
                                 flatDialog.dismiss();
                             }
                         })
@@ -160,11 +172,62 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 5 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             fileURI = data.getData();
-            if (!selectedFileType.equals("image")) {
 
+            if (!selectedFileType.equals("image"))
+            {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Document Files");
+                DatabaseReference userMessageKeyRef = RootRef.child("Messages")
+                        .child(currentUserId).child(messageReceiverID).push();
+
+                String messagePushId = userMessageKeyRef.getKey();
+
+                StorageReference filePath = storageReference.child(messagePushId + "." + selectedFileType);
+
+                filePath.putFile(fileURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String downloadUrl = uri.toString();
+                                Map<String, Object> messageTextBody = new HashMap<>();
+                                messageTextBody.put("message", downloadUrl);
+                                messageTextBody.put("filename", fileURI.getLastPathSegment());
+                                messageTextBody.put("type", selectedFileType);
+                                messageTextBody.put("from", currentUserId);
+                                messageTextBody.put("to", messageReceiverID);
+                                messageTextBody.put("name", currentUserName);
+                                messageTextBody.put("messageID", messagePushId);
+                                messageTextBody.put("time", saveCurrentTime);
+
+                                userMessageKeyRef.updateChildren(messageTextBody);
+
+                                DatabaseReference receiver_to_sender_message = RootRef.child("Messages").child(messageReceiverID)
+                                        .child(currentUserId).child(messagePushId);
+                                receiver_to_sender_message.updateChildren(messageTextBody);
+                                /*loadingBar.dismiss();*/
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                /*loadingBar.dismiss();*/
+                                Toasty.error(ChatActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double p = (100.0* taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        /*loadingBar.setMessage((int) p + " % Uploading...");*/
+                    }
+                });
             }
+
             else if (selectedFileType.equals("image")) {
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Image Files");
 
@@ -183,6 +246,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {

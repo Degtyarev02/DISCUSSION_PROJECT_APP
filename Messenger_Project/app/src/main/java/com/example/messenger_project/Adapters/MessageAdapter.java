@@ -1,6 +1,8 @@
 package com.example.messenger_project.Adapters;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,6 +172,39 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.receiverImageMessageLayout.setVisibility(View.VISIBLE);
                 Picasso.get().load(messages.getMessage()).into(holder.messageReceiverImage);
                 holder.receiverImageTime.setText(messages.getTime());
+            }
+        }
+
+        else
+        {
+            if(fromUserId.equals(messageSenderID))
+            {
+                holder.senderImageMessageLayout.setVisibility(View.VISIBLE);
+                Picasso.get().load(R.drawable.document).into(holder.messageSenderImage);
+                holder.senderImageTime.setText(messages.getFileName() + "   " + messages.getTime());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        holder.itemView.getContext().startActivity(intent);
+                    }
+                });
+            }
+            else
+            {
+                holder.receiverProfileImage.setVisibility(View.VISIBLE);
+                holder.receiverImageMessageLayout.setVisibility(View.VISIBLE);
+                Picasso.get().load(R.drawable.document).into(holder.messageReceiverImage);
+                holder.receiverImageTime.setText(messages.getFileName() + "   " + messages.getTime());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        holder.itemView.getContext().startActivity(intent);
+                    }
+                });
             }
         }
 

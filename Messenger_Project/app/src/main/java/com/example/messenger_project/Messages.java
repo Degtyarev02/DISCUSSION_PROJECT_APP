@@ -9,7 +9,7 @@ public class Messages
     private String to;
     private String messageID;
     private String time;
-    private String fileName;
+    private String filename;
 
 
     public Messages()
@@ -17,7 +17,7 @@ public class Messages
 
     }
 
-    public Messages(String from, String message, String type, String name, String to, String messageID, String time, String fileName) {
+    public Messages(String from, String message, String type, String name, String to, String messageID, String time, String filename) {
         this.from = from;
         this.message = message;
         this.type = type;
@@ -25,7 +25,7 @@ public class Messages
         this.to = to;
         this.messageID = messageID;
         this.time = time;
-        this.fileName = fileName;
+        this.filename = filename;
     }
 
     public String getFrom() {
@@ -85,10 +85,10 @@ public class Messages
     }
 
     public String getFileName() {
-        return fileName;
+        return filename;
     }
 
     public void setFileName(String fileName) {
-        this.fileName = fileName;
+        this.filename = fileName;
     }
 }
