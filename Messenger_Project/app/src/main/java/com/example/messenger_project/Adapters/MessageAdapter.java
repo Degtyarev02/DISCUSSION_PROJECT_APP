@@ -1,5 +1,6 @@
 package com.example.messenger_project.Adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.messenger_project.Activities.ShowImageActivity;
 import com.example.messenger_project.Messages;
 import com.example.messenger_project.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,14 +29,19 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>
 {
     private List<Messages> userMessagesList;
     private FirebaseAuth mAuth;
     private DatabaseReference userRef;
+    private boolean zoomOut =  false;
+    private Context mCon;
 
-    public MessageAdapter(List<Messages> userMessagesList)
+    public MessageAdapter(Context c, List<Messages> userMessagesList)
     {
+        mCon = c;
         this.userMessagesList = userMessagesList;
     }
 
@@ -165,6 +172,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.senderImageMessageLayout.setVisibility(View.VISIBLE);
                 Picasso.get().load(messages.getMessage()).into(holder.messageSenderImage);
                 holder.senderImageTime.setText(messages.getTime());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mCon, ShowImageActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("image", messages.getMessage());
+                        mCon.startActivity(i);
+                    }
+                });
             }
             else
             {
@@ -172,6 +188,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.receiverImageMessageLayout.setVisibility(View.VISIBLE);
                 Picasso.get().load(messages.getMessage()).into(holder.messageReceiverImage);
                 holder.receiverImageTime.setText(messages.getTime());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mCon, ShowImageActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("image", messages.getMessage());
+                        mCon.startActivity(i);
+                    }
+                });
             }
         }
 

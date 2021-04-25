@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -85,16 +86,28 @@ public class MainActivity extends AppCompatActivity {
         {
             updateUserStatus("online");
             VerifyExistenceUser();
-
         }
     }
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
 
         if(currentUser != null)
         {
-            updateUserStatus("offline");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(300000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    updateUserStatus("offline");
+                }
+            }).start();
+
+
+
         }
     }
 

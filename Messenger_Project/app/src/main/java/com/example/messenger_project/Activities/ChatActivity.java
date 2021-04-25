@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -359,7 +360,7 @@ public class ChatActivity extends AppCompatActivity {
         messageInputText = findViewById(R.id.input_chat_message);
         noMessageView = findViewById(R.id.no_messages_view);
 
-        messageAdapter = new MessageAdapter(messagesList);
+        messageAdapter = new MessageAdapter(getApplicationContext(), messagesList);
         userMessagesList = findViewById(R.id.private_messenger_list);
         linearLayoutManager = new LinearLayoutManager(this);
         userMessagesList.setLayoutManager(linearLayoutManager);

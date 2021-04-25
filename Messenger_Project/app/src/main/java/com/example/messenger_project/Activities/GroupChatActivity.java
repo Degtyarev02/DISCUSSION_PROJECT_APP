@@ -307,7 +307,7 @@ public class GroupChatActivity extends AppCompatActivity {
     }
 
     private void DisplayMessage() {
-        messageAdapter = new MessageAdapter(messagesList);
+        messageAdapter = new MessageAdapter(getApplicationContext(), messagesList);
         linearLayoutManager = new LinearLayoutManager(this);
         mScrollView.setLayoutManager(linearLayoutManager);
         mScrollView.setAdapter(messageAdapter);
