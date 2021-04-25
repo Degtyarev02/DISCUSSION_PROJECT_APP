@@ -53,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
         RootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        currentUserID = currentUser.getUid();
+
+        try {
+            currentUserID = currentUser.getUid();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
 
         mToolBar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolBar);

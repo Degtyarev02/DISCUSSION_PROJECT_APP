@@ -331,6 +331,8 @@ public class ChatActivity extends AppCompatActivity {
     private void SendMessage() {
         String messagetext = messageInputText.getText().toString();
         if (!TextUtils.isEmpty(messagetext)) {
+
+
             DatabaseReference userMessageKeyRef = RootRef.child("Messages")
                     .child(currentUserId).child(messageReceiverID).push();
             String messagePushId = userMessageKeyRef.getKey();
@@ -346,9 +348,7 @@ public class ChatActivity extends AppCompatActivity {
             messageTextBody.put("time", saveCurrentTime);
 
             userMessageKeyRef.updateChildren(messageTextBody);
-
             DatabaseReference receiver_to_sender_message = RootRef.child("Messages").child(messageReceiverID).child(currentUserId).child(messagePushId);
-
             receiver_to_sender_message.child(messagePushId);
             receiver_to_sender_message.updateChildren(messageTextBody);
             messageInputText.setText("");
