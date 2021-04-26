@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Random;
 
@@ -97,7 +98,7 @@ public class ShowImageActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 112)
         {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
                     try {
                         saveToInternalStorage();
@@ -105,25 +106,16 @@ public class ShowImageActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                else
-                {
-                    try {
-                        saveToInternalStorage();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return;
         }
     }
 
     private void saveToInternalStorage() throws IOException {
-
             File filePath = Environment.getExternalStorageDirectory();
             File dir = new File(filePath.getAbsolutePath());
             dir.mkdir();
             File file = new File(dir, System.currentTimeMillis() + ".jpg");
-            FileOutputStream outputStream = new FileOutputStream(file);
+            OutputStream outputStream = new FileOutputStream(file) {
+            };
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             Toasty.success(getApplication(), "Image Save to " + dir, Toasty.LENGTH_SHORT).show();
             outputStream.flush();
