@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.flatdialoglibrary.dialog.FlatDialog;
 import com.example.messenger_project.Adapters.MessageAdapter;
@@ -93,6 +94,7 @@ public class ChatActivity extends AppCompatActivity {
 
         InitializeControllers();
         GetUserInfo();
+        displayLastSeen();
 
         userName.setText(messageReceiverName);
         Picasso.get().load(messageReceiverImage).placeholder(R.drawable.man_user).into(userProfImage);
@@ -421,6 +423,13 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void displayLastSeen() {
+
+        HashMap<String, Object> onlineStatus = new HashMap<>();
+        onlineStatus.put("State", "online");
+
+        RootRef.child("Users").child(currentUserId).child("userState")
+                .updateChildren(onlineStatus);
+
         UserRef.child(messageReceiverID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

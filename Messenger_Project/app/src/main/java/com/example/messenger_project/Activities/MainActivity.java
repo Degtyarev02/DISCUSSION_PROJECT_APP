@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             VerifyExistenceUser();
         }
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -106,12 +107,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }).start();
 
-
-
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateUserStatus("offline");
+    }
 
     private void VerifyExistenceUser()
     {
