@@ -1,8 +1,10 @@
 package com.example.messenger_project.Activities;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -12,7 +14,9 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +24,8 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.flatdialoglibrary.dialog.FlatDialog;
@@ -42,19 +48,29 @@ public class ShowImageActivity extends AppCompatActivity {
     private BitmapDrawable drawable;
     private Bitmap bitmap;
     private TouchImageView imageView;
+    private ConstraintLayout showImageLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_image);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        setContentView(R.layout.activity_show_image);
         Toolbar toolbar = findViewById(R.id.showImage_Toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        ColorDrawable colorDrawable
+                = new ColorDrawable(getResources().getColor(R.color.black));
+        // Set BackgroundDrawable
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
 
         Intent i = getIntent();
         String image = i.getStringExtra("image");
 
         imageView = findViewById(R.id.imageView);
+        showImageLayout = findViewById(R.id.show_image_layout);
         Picasso.get().load(image).into(imageView);
     }
 

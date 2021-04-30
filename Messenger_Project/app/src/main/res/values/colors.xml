@@ -18,6 +18,7 @@
     <color name="DarkGray">#53354a</color>
     <color name="ReallyGray">#BEBEBE</color>
     <color name="blackyGray">#424242</color>
+    <color name="transparent">#12424242</color>
 
     <color name="teal_200">#FF5722</color>
     <color name="teal_700">#FF861A</color>
