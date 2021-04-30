@@ -75,6 +75,8 @@ public class GroupChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.it_background);
+
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         currentGroupName = getIntent().getExtras().get("groupName").toString();

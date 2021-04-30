@@ -11,13 +11,13 @@
         layout="@layout/app_toolbar_layout">
     </include>
 
-    <ImageView
+   <!-- <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/background_chat"
         android:layout_below="@+id/chat_toolbar"
         android:scaleType="centerCrop"
-        />
+        />-->
 
     <TextView
         android:id="@+id/no_messages_view"

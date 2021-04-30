@@ -7,6 +7,10 @@
     tools:context=".Activities.ShowImageActivity"
     android:background="@color/black">
 
+    <include
+        layout="@layout/app_toolbar_layout"
+        android:id="@+id/showImage_Toolbar"/>
+
     <com.ortiz.touchview.TouchImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"

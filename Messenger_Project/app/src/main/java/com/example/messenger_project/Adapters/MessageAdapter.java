@@ -118,21 +118,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             }
         });
-/*
-        holder.senderMessageText.setVisibility(View.INVISIBLE);
-        holder.senderMessageTime.setVisibility(View.INVISIBLE);
-        holder.messageSenderImage.setVisibility(View.INVISIBLE);*/
-
-
         holder.senderImageMessageLayout.setVisibility(View.GONE);
         holder.senderLayout.setVisibility(View.GONE);
-
-/*
-        holder.receiverMessageText.setVisibility(View.INVISIBLE);
-        holder.receiver_username.setVisibility(View.INVISIBLE);
-        holder.receiverMessageTime.setVisibility(View.INVISIBLE);
-        holder.messageReceiverImage.setVisibility(View.INVISIBLE);*/
-
 
         holder.receiverImageMessageLayout.setVisibility(View.GONE);
 

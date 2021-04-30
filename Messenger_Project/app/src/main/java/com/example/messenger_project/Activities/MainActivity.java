@@ -110,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+/*    @Override
     protected void onDestroy() {
         super.onDestroy();
         updateUserStatus("offline");
-    }
+    }*/
 
     private void VerifyExistenceUser()
     {
@@ -256,8 +256,5 @@ public class MainActivity extends AppCompatActivity {
 
         RootRef.child("Users").child(currentUserID).child("userState")
                 .updateChildren(onlineStatus);
-
     }
-
-
 }

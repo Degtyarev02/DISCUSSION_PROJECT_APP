@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
     private void InitializeField() //Функция инициализирует все поля в активити для входа
     {
         LoginBtn = findViewById(R.id.login_button);
-//        PhoneLoginBtn = findViewById(R.id.phone_login_button);
+//      PhoneLoginBtn = findViewById(R.id.phone_login_button);
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.button);
         UserEmail = findViewById(R.id.login_email);
         UserPassword = findViewById(R.id.login_password);

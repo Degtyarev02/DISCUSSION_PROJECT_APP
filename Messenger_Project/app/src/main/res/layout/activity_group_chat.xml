@@ -10,13 +10,6 @@
         layout="@layout/app_toolbar_layout">
     </include>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/it_background"
-        android:layout_below="@+id/group_chat_bar_layout"
-        android:scaleType="centerCrop"
-        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_scroll_view"

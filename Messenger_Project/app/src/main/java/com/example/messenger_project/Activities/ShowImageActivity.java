@@ -2,6 +2,7 @@ package com.example.messenger_project.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -16,6 +17,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -38,58 +41,42 @@ public class ShowImageActivity extends AppCompatActivity {
 
     private BitmapDrawable drawable;
     private Bitmap bitmap;
-
+    private TouchImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_image);
 
+        Toolbar toolbar = findViewById(R.id.showImage_Toolbar);
+        setSupportActionBar(toolbar);
+
         Intent i = getIntent();
         String image = i.getStringExtra("image");
 
-        TouchImageView imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imageView);
         Picasso.get().load(image).into(imageView);
+    }
 
-        imageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                FlatDialog flatDialog = new FlatDialog(ShowImageActivity.this);
-                flatDialog
-                        .setTitle("Save Image?")
-                        .setTitleColor(getResources().getColor(R.color.Gray))
-                        .setFirstButtonText("Save")
-                        .setSecondButtonText("Cancel")
-                        .setBackgroundColor(getResources().getColor(R.color.white))
-                        .setFirstButtonColor(getResources().getColor(R.color.ReallyGray))
-                        .setSecondButtonColor(getResources().getColor(R.color.Gray))
-                        .setFirstButtonTextColor(getResources().getColor(R.color.blackyGray))
-                        .setSecondButtonTextColor(getResources().getColor(R.color.whity_gray))
-                        .withFirstButtonListner(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                {
-                                    Drawable drawable = imageView.getDrawable();
-                                    bitmap = ((BitmapDrawable) drawable).getBitmap();
-                                    try {
-                                        CheckPermission();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    flatDialog.dismiss();
-                                }
-                            }
-                        })
-                        .withSecondButtonListner(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                flatDialog.dismiss();
-                            }
-                        })
-                        .show();
-                return true;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.show_image_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.save_image_button)
+        {
+            Drawable drawable = imageView.getDrawable();
+            bitmap = ((BitmapDrawable) drawable).getBitmap();
+            try {
+                CheckPermission();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -111,7 +98,7 @@ public class ShowImageActivity extends AppCompatActivity {
 
     private void saveToInternalStorage() throws IOException {
             File filePath = Environment.getExternalStorageDirectory();
-            File dir = new File(filePath.getAbsolutePath());
+            File dir = new File(filePath.getAbsolutePath() + "/DCIM/" + "/Discussion/");
             dir.mkdir();
             File file = new File(dir, System.currentTimeMillis() + ".jpg");
             OutputStream outputStream = new FileOutputStream(file) {

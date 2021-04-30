@@ -20,13 +20,15 @@
     <string name="you_can_choose_a_status_from_the_proposed">You can choose a status from the proposed…</string>
     <string name="update">Update</string>
     <string name="set_your_status">Set your status</string>
-    <string name="there_are_no_messages">There are no messages...</string>
+    <string name="there_are_no_messages">There are no messages…</string>
     <string name="username">username</string>
     <string name="status">status</string>
     <string name="send_message">Send Message</string>
     <string name="cancel">Cancel</string>
     <string name="instagram_profile"> Go to instagram profile</string>
     <string name="you_can_also_set_your_instagram_profile">You can also set your instagram profile</string>
+    <string name="please_do_not_use_your_main_passwords_we_have_not_invested_much_in_security">Please do not use your main passwords, we have not invested much in security :)</string>
+    <string name="save_image">Save Image</string>
 
     <string-array name="status_list">
         <item> Do not disturb </item>

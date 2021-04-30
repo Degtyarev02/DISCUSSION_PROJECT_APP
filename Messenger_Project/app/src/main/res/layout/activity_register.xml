@@ -131,4 +131,11 @@
         android:gravity="start"
         android:text="@string/enter_with_phone_number"
         android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="@string/please_do_not_use_your_main_passwords_we_have_not_invested_much_in_security" />
 </RelativeLayout>
