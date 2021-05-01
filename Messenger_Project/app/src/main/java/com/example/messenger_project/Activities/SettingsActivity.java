@@ -201,11 +201,11 @@ public class SettingsActivity extends AppCompatActivity {
                             filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-
-                                    final String downloaedUrl = uri.toString();
-
+                                    final String downloaedUrl = uri.toString();/*
                                     RootRef.child("Users").child(currentUserId).child("image")
-                                            .setValue(downloaedUrl);
+                                            .setValue(downloaedUrl);*/
+                                    photoURL = downloaedUrl;
+                                    Picasso.get().load(photoURL).into(UserIcon);
                                 }
                             });
                         }

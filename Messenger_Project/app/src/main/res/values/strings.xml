@@ -9,10 +9,10 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in">Sign in</string>
     <string name="enter_with_phone_number">Enter with phone number</string>
-    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="forgot_your_password">Forget your password?</string>
     <string name="no_account">No account?</string>
     <string name="sign_up">Sign up</string>
-    <string name="phone_number">Phone number +1 000-000-0000</string>
+    <string name="phone_number">Phone number +1 000–000–0000</string>
     <string name="CancelChatRequest">Cancel Chat Request</string>
     <string name="AcceptChatRequest">Accept chat request</string>
     <string name="new_message">New message…</string>

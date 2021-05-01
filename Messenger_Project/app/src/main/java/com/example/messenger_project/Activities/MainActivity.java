@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TabsAccessorAdapter mTabsAccAdapter;
-    private String currentUserID, saveCurrentTime, saveCurrentDate;;
+    private String currentUserID, saveCurrentTime, saveCurrentDate;
+    ;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -78,12 +79,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if(currentUser == null)
-        {
-           SendUserToLoginActivity();
-        }
-        else
-        {
+        if (currentUser == null) {
+            SendUserToLoginActivity();
+        } else {
             updateUserStatus("online");
             VerifyExistenceUser();
         }
@@ -93,8 +91,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if(currentUser != null)
-        {
+        if (currentUser != null) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -113,23 +110,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        updateUserStatus("offline");
+        try {
+            updateUserStatus("offline");
+        } catch (Exception e) {}
     }
 
-    private void VerifyExistenceUser()
-    {
+    private void VerifyExistenceUser() {
         RootRef.child("Users").child(currentUserID)
                 .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot)
-            {if(!(snapshot.child("name").exists())) SendUserToSettingsActivity();}
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!(snapshot.child("name").exists())) SendUserToSettingsActivity();
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error)
-            {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
     }
 
 
@@ -137,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
@@ -148,18 +145,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        switch (item.getItemId()){
-            case(R.id.main_find_friends):
+        switch (item.getItemId()) {
+            case (R.id.main_find_friends):
                 SendUserToFindFriends();
                 break;
-            case(R.id.main_settings):
+            case (R.id.main_settings):
                 SendUserToSettingsActivity();
                 break;
-            case(R.id.main_sign_out):
+            case (R.id.main_sign_out):
                 mAuth.signOut();
                 SendUserToLoginActivity();
                 break;
-            case(R.id.main_create_group):
+            case (R.id.main_create_group):
                 RequestNewGroup();
                 break;
         }
@@ -167,8 +164,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void RequestNewGroup()
-    {
+    private void RequestNewGroup() {
         FlatDialog flatDialog = new FlatDialog(MainActivity.this);
         flatDialog
                 .setTitle("Create new Group")
@@ -188,8 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         String groupName = flatDialog.getFirstTextField();
-                        if(!TextUtils.isEmpty(groupName))
-                        {
+                        if (!TextUtils.isEmpty(groupName)) {
                             CreateNewGroup(groupName);
                             flatDialog.dismiss();
                         }
@@ -204,42 +199,36 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void CreateNewGroup(String groupName)
-    {
+    private void CreateNewGroup(String groupName) {
         RootRef.child("Groups").child(groupName).setValue("")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful())
-                        {
+                        if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, groupName + " is create", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    private void SendUserToLoginActivity()
-    {
-        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class );
+    private void SendUserToLoginActivity() {
+        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
         finish();
     }
 
-    private void SendUserToSettingsActivity()
-    {
-        Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class );
+    private void SendUserToSettingsActivity() {
+        Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(settingsIntent);
     }
 
-    private void SendUserToFindFriends()
-    {
-        Intent FindFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class );
+    private void SendUserToFindFriends() {
+        Intent FindFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
         startActivity(FindFriendsIntent);
     }
 
-    private void updateUserStatus(String state)
-    {
+    private void updateUserStatus(String state) {
         Calendar calendar = Calendar.getInstance();
 
         SimpleDateFormat currentDate = new SimpleDateFormat("MMM d");
