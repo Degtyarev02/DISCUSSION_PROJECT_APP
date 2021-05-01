@@ -9,13 +9,16 @@
 
     <ImageView
         android:id="@+id/login_image"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/teamwork"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="25dp" />
+        android:layout_alignParentEnd="true"
+
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/teamwork" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_email_layout"
@@ -34,9 +37,7 @@
             android:layout_height="match_parent"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:textColorHighlight="@color/Gray"
-            android:textColorHint="@color/Gray"
-            android:textColorLink="@color/Gray" />
+            android:textColorHint="@color/Gray" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -56,9 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/password"
-            android:inputType="textPassword"
-            android:textColorHighlight="@color/Gray"
-            android:textColorLink="@color/Gray" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

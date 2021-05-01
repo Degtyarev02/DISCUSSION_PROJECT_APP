@@ -15,70 +15,81 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:src="@drawable/man" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/set_username_layout"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/layout_all_settings"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="15dp"
         android:layout_below="@+id/profile_image"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="15dp">
+        android:background="@drawable/shadow_white">
 
-        <EditText
-            android:id="@+id/set_username"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/set_username_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="User Name"
-            android:inputType="textCapSentences" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/set_user_status_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/set_username_layout"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="15dp">
+            <EditText
+                android:id="@+id/set_username"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="User Name"
+                android:inputType="textCapSentences" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/set_user_status"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/set_user_status_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/set_your_status"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/set_username_layout"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp">
 
-    <org.angmarch.views.NiceSpinner
-        android:id="@+id/status_select_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/set_user_status_layout"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="15dp"
-        android:hint="@string/you_can_choose_a_status_from_the_proposed"
-        android:textSize="15sp"
-        app:arrowTint="@color/purple_700"
-        app:entries="@array/status_list" />
+            <EditText
+                android:id="@+id/set_user_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/set_your_status"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/status_select_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/set_user_status_layout"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:hint="@string/you_can_choose_a_status_from_the_proposed"
+            android:textSize="15sp"
+            app:arrowTint="@color/purple_700"
+            app:entries="@array/status_list" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/update_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_select_spinner"
+        android:layout_below="@id/layout_all_settings"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/purple_700"
@@ -99,16 +110,16 @@
             android:id="@+id/instagram_set_profile"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/instagram"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/instagram" />
 
         <TextView
             android:id="@+id/instagram_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/you_can_also_set_your_instagram_profile"
-            android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/you_can_also_set_your_instagram_profile"
             android:textSize="15sp" />
     </LinearLayout>
 
