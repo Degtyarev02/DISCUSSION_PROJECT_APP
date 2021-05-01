@@ -136,6 +136,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:text="@string/please_do_not_use_your_main_passwords_we_have_not_invested_much_in_security" />
 </RelativeLayout>

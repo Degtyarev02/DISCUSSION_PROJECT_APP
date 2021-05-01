@@ -180,8 +180,7 @@ public class ChatActivity extends AppCompatActivity {
         if (requestCode == 5 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             fileURI = data.getData();
 
-            if (!selectedFileType.equals("image"))
-            {
+            if (!selectedFileType.equals("image")) {
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Document Files");
                 DatabaseReference userMessageKeyRef = RootRef.child("Messages")
                         .child(currentUserId).child(messageReceiverID).push();
@@ -218,7 +217,7 @@ public class ChatActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                /*loadingBar.dismiss();*/
+                                /*loadingBar.dismiss(); */
                                 Toasty.error(ChatActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
                             }
                         });
@@ -226,13 +225,11 @@ public class ChatActivity extends AppCompatActivity {
                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double p = (100.0* taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        double p = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                         /*loadingBar.setMessage((int) p + " % Uploading...");*/
                     }
                 });
-            }
-
-            else if (selectedFileType.equals("image")) {
+            } else if (selectedFileType.equals("image")) {
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Image Files");
 
                 DatabaseReference userMessageKeyRef = RootRef.child("Messages")

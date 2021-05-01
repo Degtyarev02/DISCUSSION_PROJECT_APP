@@ -14,9 +14,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.flatdialoglibrary.dialog.FlatDialog;
+import com.example.messenger_project.Activities.ChatActivity;
+import com.example.messenger_project.Activities.MainActivity;
 import com.example.messenger_project.Activities.ShowImageActivity;
 import com.example.messenger_project.Messages;
 import com.example.messenger_project.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +33,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -160,7 +166,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 Picasso.get().load(messages.getMessage()).into(holder.messageSenderImage);
                 holder.senderImageTime.setText(messages.getTime());
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.messageSenderImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(mCon, ShowImageActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -176,7 +182,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 Picasso.get().load(messages.getMessage()).into(holder.messageReceiverImage);
                 holder.receiverImageTime.setText(messages.getTime());
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.messageReceiverImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(mCon, ShowImageActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -187,7 +193,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         }
 
-        else
+        else if(fromMessageType.equals("pdf") || fromMessageType.equals("docx"))
         {
             if(fromUserId.equals(messageSenderID))
             {
@@ -195,7 +201,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 Picasso.get().load(R.drawable.document).into(holder.messageSenderImage);
                 holder.senderImageTime.setText(messages.getFileName() + "   " + messages.getTime());
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.messageSenderImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
@@ -210,7 +216,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 Picasso.get().load(R.drawable.document).into(holder.messageReceiverImage);
                 holder.receiverImageTime.setText(messages.getFileName() + "   " + messages.getTime());
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.messageReceiverImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
@@ -220,6 +226,172 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         }
 
+        if(fromUserId.equals(messageSenderID))
+        {
+           holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+               @Override
+               public boolean onLongClick(View v) {
+                       FlatDialog flatDialog = new FlatDialog(holder.itemView.getContext());
+                       flatDialog
+                               .setTitle("Delete message?")
+                               .setFirstButtonText("Delete for me")
+                               .setSecondButtonText("Delete for everyone")
+                               .setThirdButtonText("Cancel")
+
+                               .setBackgroundColor(mCon.getResources().getColor(R.color.white))
+
+                               .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
+                               .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
+                               .setThirdButtonColor(mCon.getResources().getColor(R.color.Gray))
+
+                               .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
+                               .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
+                               .setThirdButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
+
+                               .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
+                               .withFirstButtonListner(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+                                       deleteSentMessages(position, holder);
+                                       flatDialog.dismiss();
+                                   }
+                               })
+                               .withSecondButtonListner(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+                                       deleteMessageForEveryOne(position, holder);
+                                       flatDialog.dismiss();
+                                   }
+                               })
+                               .withThirdButtonListner(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+                                       flatDialog.dismiss();
+                                   }
+                               })
+                               .show();
+                   return true;
+               }
+           });
+        }
+
+        else
+        {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                        FlatDialog flatDialog = new FlatDialog(holder.itemView.getContext());
+                        flatDialog
+                                .setTitle("Delete message?")
+                                .setFirstButtonText("Delete")
+                                .setSecondButtonText("Cancel")
+
+                                .setBackgroundColor(mCon.getResources().getColor(R.color.white))
+
+                                .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
+                                .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
+
+                                .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
+                                .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
+
+                                .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
+                                .withFirstButtonListner(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        deleteReceiveMessages(position, holder);
+                                        flatDialog.dismiss();
+                                    }
+                                })
+                                .withSecondButtonListner(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        flatDialog.dismiss();
+                                    }
+                                })
+                                .show();
+
+                    return true;
+                }
+            });
+        }
+
+    }
+
+    private void deleteSentMessages(final int position, final MessageViewHolder holder)
+    {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child("Messages")
+                .child(userMessagesList.get(position).getFrom())
+                .child(userMessagesList.get(position).getTo())
+                .child(userMessagesList.get(position).getMessageID())
+                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    Toasty.success(holder.itemView.getContext(), "Message deleted", Toasty.LENGTH_SHORT).show();
+                    Intent i = new Intent(holder.itemView.getContext(), MainActivity.class);
+                    holder.itemView.getContext().startActivity(i);
+                }
+                else Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void deleteReceiveMessages(final int position, final MessageViewHolder holder)
+    {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child("Messages")
+                .child(userMessagesList.get(position).getTo())
+                .child(userMessagesList.get(position).getFrom())
+                .child(userMessagesList.get(position).getMessageID())
+                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                {
+                    Toasty.success(holder.itemView.getContext(), "Message deleted", Toasty.LENGTH_SHORT).show();
+                    Intent i = new Intent(holder.itemView.getContext(), MainActivity.class);
+                    holder.itemView.getContext().startActivity(i);
+                }
+                else Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void deleteMessageForEveryOne(final int position, final MessageViewHolder holder)
+    {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child("Messages")
+                .child(userMessagesList.get(position).getTo())
+                .child(userMessagesList.get(position).getFrom())
+                .child(userMessagesList.get(position).getMessageID())
+                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                    rootRef.child("Messages")
+                            .child(userMessagesList.get(position).getFrom())
+                            .child(userMessagesList.get(position).getTo())
+                            .child(userMessagesList.get(position).getMessageID())
+                            .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful())
+                            {
+                                Toasty.success(holder.itemView.getContext(), "Message deleted", Toasty.LENGTH_SHORT).show();
+                                Intent i = new Intent(holder.itemView.getContext(), MainActivity.class);
+                                holder.itemView.getContext().startActivity(i);
+                            }
+                            else
+                                Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override

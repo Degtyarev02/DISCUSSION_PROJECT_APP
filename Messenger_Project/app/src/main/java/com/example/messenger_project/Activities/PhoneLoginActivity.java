@@ -145,7 +145,6 @@ public class PhoneLoginActivity extends AppCompatActivity {
     {
         NumberField = findViewById(R.id.Phone_number_input);
         VerificationCode = findViewById(R.id.Verification_number_input);
-
         SendCode = findViewById(R.id.Send_ver_code);
         Verify = findViewById(R.id.verify_number);
     }
