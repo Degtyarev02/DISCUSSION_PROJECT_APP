@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".Activities.FindFriendsActivity">
 
     <include
@@ -16,7 +17,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/find_friends_recycleview"
         android:layout_width="match_parent"
-        android:layout_height="638dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/find_friends_toolbar"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:background="@drawable/shadow_white"
         />
 </RelativeLayout>

@@ -10,12 +10,11 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/appBarLayout"
-        >
+        android:id="@+id/appBarLayout">
+
         <include
             android:id="@+id/main_page_toolbar"
             layout="@layout/app_toolbar_layout">
-
         </include>
 
         <com.google.android.material.tabs.TabLayout
@@ -26,14 +25,16 @@
             android:background="@color/Gray"
             app:tabTextColor="@color/white"
             app:tabIndicatorColor="@color/white">
-
         </com.google.android.material.tabs.TabLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/main_tabs_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/appBarLayout">
+        android:layout_below="@+id/appBarLayout"
+        android:layout_margin="5dp">
     </androidx.viewpager.widget.ViewPager>
+
 </RelativeLayout>

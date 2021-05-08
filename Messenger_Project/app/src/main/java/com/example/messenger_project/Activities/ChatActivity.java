@@ -82,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        getWindow().setBackgroundDrawableResource(R.drawable.background_chat);
+        /*getWindow().setBackgroundDrawableResource(R.drawable.background_chat);*/
 
         messageReceiverID = getIntent().getExtras().get("visit_user_Id").toString();
         messageReceiverName = getIntent().getExtras().get("visit_user_name").toString();

@@ -22,8 +22,9 @@
         android:layout_height="0dp"
         android:longClickable="true"
         android:src="@drawable/empty_chat"
-        app:layout_constraintTop_toBottomOf="@+id/showImage_Toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showImage_Toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

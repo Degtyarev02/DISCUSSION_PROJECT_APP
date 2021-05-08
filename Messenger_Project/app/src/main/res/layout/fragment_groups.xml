@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
+    android:background="@drawable/shadow_white"
     tools:context=".Fragments.GroupsFragment">
 
 
@@ -17,7 +19,7 @@
         android:layout_width="256dp"
         android:layout_height="256dp"
         android:layout_marginTop="150dp"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:src="@drawable/empty_chat"
         android:visibility="invisible"/>
 </RelativeLayout>

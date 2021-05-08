@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.flatdialoglibrary.dialog.FlatDialog;
@@ -44,6 +45,8 @@ public class RequestFragment extends Fragment {
     private FirebaseAuth mAuth;
     private String currentUserID;
 
+    private ImageView showEmpty;
+
     public RequestFragment() {
         // Required empty public constructor
     }
@@ -55,6 +58,7 @@ public class RequestFragment extends Fragment {
 
         RequestsFragmentView = inflater.inflate(R.layout.fragment_request, container, false);
         myReqList = RequestsFragmentView.findViewById(R.id.chat_request_list);
+        showEmpty = RequestsFragmentView.findViewById(R.id.empty_request_fragment);
         myReqList.setLayoutManager(new LinearLayoutManager(getContext()));
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         chatReqRef = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
@@ -63,7 +67,6 @@ public class RequestFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
 
-
         return RequestsFragmentView;
     }
 
@@ -71,8 +74,32 @@ public class RequestFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+
+        chatReqRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists())
+                {
+                    showEmpty.setVisibility(View.VISIBLE);
+                    myReqList.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    showEmpty.setVisibility(View.INVISIBLE);
+                    myReqList.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         FirebaseRecyclerOptions<Contacts> options =
-                new FirebaseRecyclerOptions.Builder<Contacts>()
+                new FirebaseRecyclerOptions
+                .Builder<Contacts>()
                 .setQuery(chatReqRef.child(currentUserID), Contacts.class)
                 .build();
 
