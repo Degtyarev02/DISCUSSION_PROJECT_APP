@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -41,6 +42,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.roger.catloadinglibrary.CatLoadingView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -76,6 +78,7 @@ public class ChatActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private MessageAdapter messageAdapter;
     private RecyclerView userMessagesList;
+    private CatLoadingView catProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,7 @@ public class ChatActivity extends AppCompatActivity {
         currentUserId = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        catProgressDialog = new CatLoadingView();
 
         InitializeControllers();
         GetUserInfo();
@@ -176,6 +180,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        catProgressDialog.show(getSupportFragmentManager(), "");
 
         if (requestCode == 5 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             fileURI = data.getData();
@@ -206,27 +211,28 @@ public class ChatActivity extends AppCompatActivity {
                                 messageTextBody.put("messageID", messagePushId);
                                 messageTextBody.put("time", saveCurrentTime);
 
-                                userMessageKeyRef.updateChildren(messageTextBody);
-
+                                userMessageKeyRef.updateChildren(messageTextBody).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                             catProgressDialog.setBackgroundColor(getResources().getColor(R.color.purple_700));
+                                             catProgressDialog.dismiss();
+                                    }
+                                });
                                 DatabaseReference receiver_to_sender_message = RootRef.child("Messages").child(messageReceiverID)
                                         .child(currentUserId).child(messagePushId);
                                 receiver_to_sender_message.updateChildren(messageTextBody);
-                                /*loadingBar.dismiss();*/
+
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                /*loadingBar.dismiss(); */
+
+
+                                catProgressDialog.dismiss();
                                 Toasty.error(ChatActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
                             }
                         });
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double p = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                        /*loadingBar.setMessage((int) p + " % Uploading...");*/
                     }
                 });
             } else if (selectedFileType.equals("image")) {
@@ -264,7 +270,12 @@ public class ChatActivity extends AppCompatActivity {
                             messageTextBody.put("messageID", messagePushId);
                             messageTextBody.put("time", saveCurrentTime);
 
-                            userMessageKeyRef.updateChildren(messageTextBody);
+                            userMessageKeyRef.updateChildren(messageTextBody).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    catProgressDialog.dismiss();
+                                }
+                            });
 
                             DatabaseReference receiver_to_sender_message = RootRef.child("Messages").child(messageReceiverID)
                                     .child(currentUserId).child(messagePushId);

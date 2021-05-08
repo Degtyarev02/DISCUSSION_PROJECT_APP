@@ -26,6 +26,8 @@ import com.example.messenger_project.Messages;
 import com.example.messenger_project.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -37,6 +39,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.roger.catloadinglibrary.CatLoadingView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +62,7 @@ public class GroupChatActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private LinearLayoutManager linearLayoutManager;
 
+    private CatLoadingView catProgressDialog;
 
     private StorageTask uploadTask;
     private String selectedFileType = "", myUrl = "";
@@ -83,6 +88,8 @@ public class GroupChatActivity extends AppCompatActivity {
 
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
         GroupNameRef = FirebaseDatabase.getInstance().getReference().child("Groups").child(currentGroupName);
+
+        catProgressDialog = new CatLoadingView();
 
         InitializeFields();
         GetUserInfo();
@@ -140,13 +147,21 @@ public class GroupChatActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 selectedFileType = "pdf";
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                intent.setType("application/pdf");
+                                startActivityForResult(intent.createChooser(intent, "Select PDF file"), 5);
                                 flatDialog.dismiss();
                             }
                         })
                         .withThirdButtonListner(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                selectedFileType = "doc";
+                                selectedFileType = "docx";
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                intent.setType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                                startActivityForResult(Intent.createChooser(intent, "Select MS Word File"), 5);
                                 flatDialog.dismiss();
                             }
                         })
@@ -159,14 +174,56 @@ public class GroupChatActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        catProgressDialog.show(getSupportFragmentManager(), "");
         String messageKey = GroupNameRef.push().getKey();
         GroupMessageKeyRef = GroupNameRef.child(messageKey);
 
         if (requestCode == 5 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             fileURI = data.getData();
-            if (!selectedFileType.equals("image")) {
 
+
+            if (!selectedFileType.equals("image")) {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Document Files");
+
+                StorageReference filePath = storageReference.child(messageKey + "." + selectedFileType);
+
+                filePath.putFile(fileURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String downloadUrl = uri.toString();
+                                Map<String, Object> messageTextBody = new HashMap<>();
+                                messageTextBody.put("message", downloadUrl);
+                                messageTextBody.put("filename", fileURI.getLastPathSegment());
+                                messageTextBody.put("type", selectedFileType);
+                                messageTextBody.put("from", currentUserID);
+                                messageTextBody.put("name", currentUserName);
+                                messageTextBody.put("messageID", messageKey);
+                                messageTextBody.put("time", currentTime);
+
+                                GroupMessageKeyRef.updateChildren(messageTextBody).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        catProgressDialog.dismiss();
+                                    }
+                                });
+
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                catProgressDialog.dismiss();
+                                Toasty.error(GroupChatActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
+
+
             else if (selectedFileType.equals("image")) {
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Image Files");
 
@@ -185,7 +242,7 @@ public class GroupChatActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
 
-
+                            catProgressDialog.dismiss();
                             Uri downloadUri = task.getResult();
                             myUrl = downloadUri.toString();
 
@@ -198,7 +255,12 @@ public class GroupChatActivity extends AppCompatActivity {
                             messageTextBody.put("messageID", messageKey);
                             messageTextBody.put("time", currentTime);
 
-                            GroupMessageKeyRef.updateChildren(messageTextBody);
+                            GroupMessageKeyRef.updateChildren(messageTextBody).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    catProgressDialog.setBackgroundColor(getResources().getColor(R.color.purple_700));
+                                }
+                            });;
                         }
                     }
                 });
@@ -309,7 +371,7 @@ public class GroupChatActivity extends AppCompatActivity {
     }
 
     private void DisplayMessage() {
-        messageAdapter = new MessageAdapter(getApplicationContext(), messagesList);
+        messageAdapter = new MessageAdapter(getApplicationContext(), messagesList, currentGroupName);
         linearLayoutManager = new LinearLayoutManager(this);
         mScrollView.setLayoutManager(linearLayoutManager);
         mScrollView.setAdapter(messageAdapter);

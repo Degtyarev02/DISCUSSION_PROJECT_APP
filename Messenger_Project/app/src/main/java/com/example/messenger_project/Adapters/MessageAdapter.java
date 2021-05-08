@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flatdialoglibrary.dialog.FlatDialog;
 import com.example.messenger_project.Activities.ChatActivity;
+import com.example.messenger_project.Activities.GroupChatActivity;
 import com.example.messenger_project.Activities.MainActivity;
 import com.example.messenger_project.Activities.ShowImageActivity;
 import com.example.messenger_project.Messages;
@@ -37,22 +38,26 @@ import es.dmoral.toasty.Toasty;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>
-{
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private List<Messages> userMessagesList;
     private FirebaseAuth mAuth;
     private DatabaseReference userRef;
-    private boolean zoomOut =  false;
+    private boolean zoomOut = false;
     private Context mCon;
+    private String groupName;
 
-    public MessageAdapter(Context c, List<Messages> userMessagesList)
-    {
+    public MessageAdapter(Context c, List<Messages> userMessagesList) {
         mCon = c;
         this.userMessagesList = userMessagesList;
     }
 
-    public static class MessageViewHolder extends RecyclerView.ViewHolder
-    {
+    public MessageAdapter(Context c, List<Messages> userMessagesList, String groupName) {
+        mCon = c;
+        this.groupName = groupName;
+        this.userMessagesList = userMessagesList;
+    }
+
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView senderMessageText, receiverMessageText,
                 receiver_username, senderMessageTime, receiverMessageTime,
                 senderImageTime, receiverImageTime;
@@ -60,8 +65,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public LinearLayout receiverLayout, senderLayout, senderImageMessageLayout, receiverImageMessageLayout;
         public ImageView messageSenderImage, messageReceiverImage;
 
-        public MessageViewHolder(@NonNull View itemView)
-        {
+        public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
             senderMessageText = itemView.findViewById(R.id.sender_message_text);
@@ -87,8 +91,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @NonNull
     @Override
-    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
+    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.custom_messages_layout, parent, false);
 
@@ -99,8 +102,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position)
-    {
+    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         String messageSenderID = mAuth.getCurrentUser().getUid();
         Messages messages = userMessagesList.get(position);
 
@@ -110,10 +112,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(fromUserId);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot)
-            {
-                if(snapshot.hasChild("image"))
-                {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild("image")) {
                     String receiverImage = snapshot.child("image").getValue().toString();
                     Picasso.get().load(receiverImage).placeholder(R.drawable.man_user).into(holder.receiverProfileImage);
                 }
@@ -133,19 +133,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         holder.receiverLayout.setVisibility(View.GONE);
 
 
+        if (fromMessageType.equals("text")) {
 
-        if(fromMessageType.equals("text"))
-        {
-
-            if(fromUserId.equals(messageSenderID))
-            {
+            if (fromUserId.equals(messageSenderID)) {
                 holder.senderLayout.setVisibility(View.VISIBLE);
 
                 holder.senderMessageText.setText(messages.getMessage());
                 holder.senderMessageTime.setText(messages.getTime());
-            }
-            else
-            {
+            } else {
 
                 /*holder.receiverMessageText.setVisibility(View.VISIBLE);
                 holder.receiver_username.setVisibility(View.VISIBLE);*/
@@ -156,12 +151,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.receiver_username.setText(messages.getName());
                 holder.receiverMessageTime.setText(messages.getTime());
             }
-        }
-
-        else if(fromMessageType.equals("image"))
-        {
-            if(fromUserId.equals(messageSenderID))
-            {
+        } else if (fromMessageType.equals("image")) {
+            if (fromUserId.equals(messageSenderID)) {
                 holder.senderImageMessageLayout.setVisibility(View.VISIBLE);
                 Picasso.get().load(messages.getMessage()).into(holder.messageSenderImage);
                 holder.senderImageTime.setText(messages.getTime());
@@ -174,9 +165,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                         mCon.startActivity(i);
                     }
                 });
-            }
-            else
-            {
+            } else {
                 holder.receiverProfileImage.setVisibility(View.VISIBLE);
                 holder.receiverImageMessageLayout.setVisibility(View.VISIBLE);
                 Picasso.get().load(messages.getMessage()).into(holder.messageReceiverImage);
@@ -191,12 +180,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                     }
                 });
             }
-        }
-
-        else if(fromMessageType.equals("pdf") || fromMessageType.equals("docx"))
-        {
-            if(fromUserId.equals(messageSenderID))
-            {
+        } else if (fromMessageType.equals("pdf") || fromMessageType.equals("docx")) {
+            if (fromUserId.equals(messageSenderID)) {
                 holder.senderImageMessageLayout.setVisibility(View.VISIBLE);
                 Picasso.get().load(R.drawable.document).into(holder.messageSenderImage);
                 holder.senderImageTime.setText(messages.getFileName() + "   " + messages.getTime());
@@ -208,9 +193,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                         holder.itemView.getContext().startActivity(intent);
                     }
                 });
-            }
-            else
-            {
+            } else {
                 holder.receiverProfileImage.setVisibility(View.VISIBLE);
                 holder.receiverImageMessageLayout.setVisibility(View.VISIBLE);
                 Picasso.get().load(R.drawable.document).into(holder.messageReceiverImage);
@@ -226,89 +209,119 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         }
 
-        if(fromUserId.equals(messageSenderID))
-        {
-           holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-               @Override
-               public boolean onLongClick(View v) {
-                       FlatDialog flatDialog = new FlatDialog(holder.itemView.getContext());
-                       flatDialog
-                               .setTitle("Delete message?")
-                               .setFirstButtonText("Delete for me")
-                               .setSecondButtonText("Delete for everyone")
-                               .setThirdButtonText("Cancel")
 
-                               .setBackgroundColor(mCon.getResources().getColor(R.color.white))
-
-                               .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
-                               .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
-                               .setThirdButtonColor(mCon.getResources().getColor(R.color.Gray))
-
-                               .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
-                               .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
-                               .setThirdButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
-
-                               .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
-                               .withFirstButtonListner(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View v) {
-                                       deleteSentMessages(position, holder);
-                                       flatDialog.dismiss();
-                                   }
-                               })
-                               .withSecondButtonListner(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View v) {
-                                       deleteMessageForEveryOne(position, holder);
-                                       flatDialog.dismiss();
-                                   }
-                               })
-                               .withThirdButtonListner(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View v) {
-                                       flatDialog.dismiss();
-                                   }
-                               })
-                               .show();
-                   return true;
-               }
-           });
-        }
-
-        else
-        {
+        if (fromUserId.equals(messageSenderID)) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                        FlatDialog flatDialog = new FlatDialog(holder.itemView.getContext());
-                        flatDialog
-                                .setTitle("Delete message?")
-                                .setFirstButtonText("Delete")
-                                .setSecondButtonText("Cancel")
+                            if (mCon.getClass() != GroupChatActivity.class) {
+                                FlatDialog flatDialog = new FlatDialog(holder.itemView.getContext());
+                                flatDialog
+                                        .setTitle("Delete message?")
+                                        .setFirstButtonText("Delete for me")
+                                        .setSecondButtonText("Delete for everyone")
+                                        .setThirdButtonText("Cancel")
 
-                                .setBackgroundColor(mCon.getResources().getColor(R.color.white))
+                                        .setBackgroundColor(mCon.getResources().getColor(R.color.white))
 
-                                .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
-                                .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
+                                        .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
+                                        .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
+                                        .setThirdButtonColor(mCon.getResources().getColor(R.color.Gray))
 
-                                .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
-                                .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
+                                        .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
+                                        .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
+                                        .setThirdButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
 
-                                .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
-                                .withFirstButtonListner(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        deleteReceiveMessages(position, holder);
-                                        flatDialog.dismiss();
-                                    }
-                                })
-                                .withSecondButtonListner(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        flatDialog.dismiss();
-                                    }
-                                })
-                                .show();
+                                        .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
+                                        .withFirstButtonListner(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                deleteSentMessages(position, holder);
+                                                flatDialog.dismiss();
+                                            }
+                                        })
+                                        .withSecondButtonListner(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                deleteMessageForEveryOne(position, holder);
+                                                flatDialog.dismiss();
+                                            }
+                                        })
+                                        .withThirdButtonListner(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                flatDialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            } else {
+                                FlatDialog flatDialog = new FlatDialog(holder.itemView.getContext());
+                                flatDialog
+                                        .setTitle("Delete message?")
+                                        .setFirstButtonText("Delete")
+                                        .setSecondButtonText("Cancel")
+
+                                        .setBackgroundColor(mCon.getResources().getColor(R.color.white))
+
+                                        .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
+                                        .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
+
+                                        .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
+                                        .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
+
+                                        .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
+                                        .withFirstButtonListner(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                deleteGroupMessage(position, holder);
+                                                flatDialog.dismiss();
+                                            }
+                                        })
+                                        .withSecondButtonListner(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                flatDialog.dismiss();
+                                            }
+                                        }).show();
+                            }
+                    return true;
+                }
+            });
+        } else {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+
+                    FlatDialog flatDialog = new FlatDialog(holder.itemView.getContext());
+                    flatDialog
+                            .setTitle("Delete message?")
+                            .setFirstButtonText("Delete")
+                            .setSecondButtonText("Cancel")
+
+                            .setBackgroundColor(mCon.getResources().getColor(R.color.white))
+
+                            .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
+                            .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
+
+                            .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
+                            .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
+
+                            .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
+                            .withFirstButtonListner(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    deleteReceiveMessages(position, holder);
+                                    flatDialog.dismiss();
+                                }
+                            })
+                            .withSecondButtonListner(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    flatDialog.dismiss();
+                                }
+                            })
+                            .show();
 
                     return true;
                 }
@@ -317,8 +330,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     }
 
-    private void deleteSentMessages(final int position, final MessageViewHolder holder)
-    {
+    private void deleteGroupMessage(final int position, MessageViewHolder holder) {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child("Groups")
+                .child(groupName)
+                .child(userMessagesList.get(position).getMessageID())
+                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toasty.success(holder.itemView.getContext(), "Message deleted", Toasty.LENGTH_SHORT).show();
+                    Intent i = new Intent(holder.itemView.getContext(), MainActivity.class);
+                    holder.itemView.getContext().startActivity(i);
+                } else
+                    Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deleteSentMessages(final int position, final MessageViewHolder holder) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.child("Messages")
                 .child(userMessagesList.get(position).getFrom())
@@ -327,19 +357,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     Toasty.success(holder.itemView.getContext(), "Message deleted", Toasty.LENGTH_SHORT).show();
                     Intent i = new Intent(holder.itemView.getContext(), MainActivity.class);
                     holder.itemView.getContext().startActivity(i);
-                }
-                else Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
+                } else
+                    Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void deleteReceiveMessages(final int position, final MessageViewHolder holder)
-    {
+    private void deleteReceiveMessages(final int position, final MessageViewHolder holder) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.child("Messages")
                 .child(userMessagesList.get(position).getTo())
@@ -348,20 +377,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     Toasty.success(holder.itemView.getContext(), "Message deleted", Toasty.LENGTH_SHORT).show();
                     Intent i = new Intent(holder.itemView.getContext(), MainActivity.class);
                     holder.itemView.getContext().startActivity(i);
-                }
-                else Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
+                } else
+                    Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void deleteMessageForEveryOne(final int position, final MessageViewHolder holder)
-    {
+    private void deleteMessageForEveryOne(final int position, final MessageViewHolder holder) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.child("Messages")
                 .child(userMessagesList.get(position).getTo())
@@ -370,7 +397,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
                     rootRef.child("Messages")
                             .child(userMessagesList.get(position).getFrom())
@@ -379,13 +406,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                             .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful())
-                            {
+                            if (task.isSuccessful()) {
                                 Toasty.success(holder.itemView.getContext(), "Message deleted", Toasty.LENGTH_SHORT).show();
                                 Intent i = new Intent(holder.itemView.getContext(), MainActivity.class);
                                 holder.itemView.getContext().startActivity(i);
-                            }
-                            else
+                            } else
                                 Toasty.error(holder.itemView.getContext(), "Something went wrong", Toasty.LENGTH_SHORT).show();
                         }
                     });
@@ -395,8 +420,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return userMessagesList.size();
     }
 
