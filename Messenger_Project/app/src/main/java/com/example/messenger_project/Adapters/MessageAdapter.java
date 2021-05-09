@@ -2,7 +2,6 @@ package com.example.messenger_project.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flatdialoglibrary.dialog.FlatDialog;
-import com.example.messenger_project.Activities.ChatActivity;
 import com.example.messenger_project.Activities.GroupChatActivity;
 import com.example.messenger_project.Activities.MainActivity;
 import com.example.messenger_project.Activities.ShowImageActivity;
@@ -224,15 +222,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                                         .setBackgroundColor(mCon.getResources().getColor(R.color.white))
 
-                                        .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
-                                        .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
-                                        .setThirdButtonColor(mCon.getResources().getColor(R.color.Gray))
+                                        .setFirstButtonColor(mCon.getResources().getColor(R.color.Gray))
+                                        .setSecondButtonColor(mCon.getResources().getColor(R.color.DarkBlue))
+                                        .setThirdButtonColor(mCon.getResources().getColor(R.color.DarkRed))
 
                                         .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
                                         .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
                                         .setThirdButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
 
-                                        .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
+                                        .setTitleColor(mCon.getResources().getColor(R.color.DarkBlue))
                                         .withFirstButtonListner(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -263,13 +261,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                                         .setBackgroundColor(mCon.getResources().getColor(R.color.white))
 
-                                        .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
-                                        .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
+                                        .setFirstButtonColor(mCon.getResources().getColor(R.color.Gray))
+                                        .setSecondButtonColor(mCon.getResources().getColor(R.color.DarkBlue))
 
                                         .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
                                         .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
 
-                                        .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
+                                        .setTitleColor(mCon.getResources().getColor(R.color.DarkBlue))
                                         .withFirstButtonListner(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -301,13 +299,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                             .setBackgroundColor(mCon.getResources().getColor(R.color.white))
 
-                            .setFirstButtonColor(mCon.getResources().getColor(R.color.ReallyGray))
-                            .setSecondButtonColor(mCon.getResources().getColor(R.color.purple_700))
+                            .setFirstButtonColor(mCon.getResources().getColor(R.color.Gray))
+                            .setSecondButtonColor(mCon.getResources().getColor(R.color.DarkBlue))
 
                             .setFirstButtonTextColor(mCon.getResources().getColor(R.color.blackyGray))
                             .setSecondButtonTextColor(mCon.getResources().getColor(R.color.whity_gray))
 
-                            .setTitleColor(mCon.getResources().getColor(R.color.purple_700))
+                            .setTitleColor(mCon.getResources().getColor(R.color.DarkBlue))
                             .withFirstButtonListner(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

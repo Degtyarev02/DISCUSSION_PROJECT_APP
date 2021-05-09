@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -124,12 +123,12 @@ public class SettingsActivity extends AppCompatActivity {
                         .setFirstButtonText("Save")
                         .setSecondButtonText("Cancel")
                         .setBackgroundColor(getResources().getColor(R.color.white))
-                        .setFirstButtonColor(getResources().getColor(R.color.purple_700))
+                        .setFirstButtonColor(getResources().getColor(R.color.DarkBlue))
                         .setFirstButtonTextColor(getResources().getColor(R.color.whity_gray))
-                        .setSecondButtonColor(getResources().getColor(R.color.Gray))
+                        .setSecondButtonColor(getResources().getColor(R.color.DarkRed))
                         .setSecondButtonTextColor(getResources().getColor(R.color.whity_gray))
-                        .setTitleColor(getResources().getColor(R.color.purple_700))
-                        .setFirstTextFieldBorderColor(getResources().getColor(R.color.Gray))
+                        .setTitleColor(getResources().getColor(R.color.DarkBlue))
+                        .setFirstTextFieldBorderColor(getResources().getColor(R.color.DarkRed))
                         .setFirstTextFieldTextColor(getResources().getColor(R.color.blackyGray))
                         .setFirstTextFieldHintColor(getResources().getColor(R.color.blackyGray))
                         .withFirstButtonListner(new View.OnClickListener() {

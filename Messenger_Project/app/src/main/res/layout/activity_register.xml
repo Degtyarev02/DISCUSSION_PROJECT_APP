@@ -12,10 +12,8 @@
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="50dp"
         android:src="@drawable/writing" />
 
@@ -26,9 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_image"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -54,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/DarkGray">
+            app:passwordToggleTint="@color/RedViolet">
 
             <EditText
                 android:id="@+id/register_password"
@@ -69,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/DarkGray">
+            app:passwordToggleTint="@color/RedViolet">
 
             <EditText
                 android:id="@+id/confirm_register_password"
@@ -86,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/round"
-            android:backgroundTint="@color/purple_700"
+            android:backgroundTint="@color/DarkBlue"
             android:text="@string/create"
             android:textAllCaps="false"
             android:textColor="@color/white" />
@@ -99,7 +95,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_lin_layout"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:gravity="start"
@@ -108,16 +103,16 @@
 
     <Button
         android:id="@+id/already_have_account"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
         android:layout_below="@+id/register_lin_layout"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginRight="30dp"
-        android:background="@drawable/inputs_orange"
+        android:background="@drawable/inputs_rounded_blue"
         android:text="@string/sign_in"
         android:textAllCaps="false"
-        android:textColor="@color/purple_700" />
+        android:textColor="@color/DarkBlue" />
 
     <TextView
         android:id="@+id/Phone_autentification"
@@ -125,7 +120,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/already_have_account"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_marginStart="77dp"
         android:layout_marginLeft="77dp"
         android:layout_marginTop="14dp"

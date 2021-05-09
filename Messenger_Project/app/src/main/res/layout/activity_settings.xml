@@ -11,7 +11,7 @@
 
     <include
         android:id="@+id/settings_toolbar"
-        layout="@layout/app_toolbar_layout"></include>
+        layout="@layout/app_toolbar_layout"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -37,8 +37,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/set_username_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/set_username"
@@ -68,7 +67,7 @@
             android:layout_marginTop="5dp"
             android:hint="@string/you_can_choose_a_status_from_the_proposed"
             android:textSize="15sp"
-            app:arrowTint="@color/purple_700"
+            app:arrowTint="@color/DarkBlue"
             app:entries="@array/status_list" />
 
 
@@ -77,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/round"
-        android:backgroundTint="@color/purple_700"
+        android:backgroundTint="@color/DarkBlue"
         android:layout_marginTop="10dp"
         android:text="@string/update"
         android:textAllCaps="false"

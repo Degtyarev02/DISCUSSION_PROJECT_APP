@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,7 +43,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -123,15 +119,15 @@ public class GroupChatActivity extends AppCompatActivity {
 
                         .setBackgroundColor(getResources().getColor(R.color.white))
 
-                        .setFirstButtonColor(getResources().getColor(R.color.ReallyGray))
-                        .setSecondButtonColor(getResources().getColor(R.color.purple_700))
-                        .setThirdButtonColor(getResources().getColor(R.color.Gray))
+                        .setFirstButtonColor(getResources().getColor(R.color.Gray))
+                        .setSecondButtonColor(getResources().getColor(R.color.DarkBlue))
+                        .setThirdButtonColor(getResources().getColor(R.color.DarkRed))
 
                         .setFirstButtonTextColor(getResources().getColor(R.color.blackyGray))
                         .setSecondButtonTextColor(getResources().getColor(R.color.whity_gray))
                         .setThirdButtonTextColor(getResources().getColor(R.color.whity_gray))
 
-                        .setTitleColor(getResources().getColor(R.color.purple_700))
+                        .setTitleColor(getResources().getColor(R.color.DarkBlue))
                         .withFirstButtonListner(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -258,7 +254,7 @@ public class GroupChatActivity extends AppCompatActivity {
                             GroupMessageKeyRef.updateChildren(messageTextBody).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    catProgressDialog.setBackgroundColor(getResources().getColor(R.color.purple_700));
+                                    catProgressDialog.setBackgroundColor(getResources().getColor(R.color.DarkBlue));
                                 }
                             });;
                         }

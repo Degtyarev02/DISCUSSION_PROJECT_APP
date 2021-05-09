@@ -7,9 +7,9 @@
         android:id="@+id/message_profile_image"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="25dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp"
         android:src="@drawable/man_user" />
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_toRightOf="@+id/message_profile_image"
+        android:layout_toEndOf="@+id/message_profile_image"
         android:background="@drawable/receiver_messages_layout"
         android:orientation="vertical">
 
@@ -25,12 +25,11 @@
             android:id="@+id/receiver_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_marginTop="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
-            android:text="Receiver Name"
+            android:text="@string/receiver_name"
             android:textColor="@color/blackyGray"
             android:textSize="12sp" />
 
@@ -38,12 +37,11 @@
             android:id="@+id/receiver_message_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/receiver_username"
             android:maxWidth="200dp"
             android:minWidth="100dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Receiver Messages"
+            android:text="@string/receiver_messages"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:longClickable="true"/>
@@ -52,12 +50,11 @@
             android:id="@+id/receiver_messages_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/receiver_username"
             android:layout_gravity="end"
-            android:paddingLeft="30dp"
-            android:paddingRight="10dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="3dp"
-            android:text="00:00"
+            android:text="@string/_00_00"
             android:textColor="@color/blackyGray"
             android:textSize="12sp" />
     </LinearLayout>
@@ -67,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_toRightOf="@+id/message_profile_image"
+        android:layout_toEndOf="@+id/message_profile_image"
         android:background="@drawable/receiver_messages_layout"
         android:padding="7dp"
         android:layout_marginBottom="5dp"
@@ -83,10 +80,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:paddingLeft="30dp"
-            android:paddingRight="10dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="3dp"
-            android:text="00:00"
+            android:text="@string/_00_00"
             android:textColor="@color/blackyGray"
             android:textSize="12sp" />
     </LinearLayout>
@@ -96,9 +93,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:background="@drawable/sender_messages_layout"
         android:orientation="vertical">
 
@@ -112,7 +108,7 @@
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="2dp"
-            android:text="Sender Messages"
+            android:text="@string/sender_messages"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:adjustViewBounds="true"
@@ -123,10 +119,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:paddingLeft="30dp"
-            android:paddingRight="10dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="3dp"
-            android:text="00:00"
+            android:text="@string/_00_00"
             android:textColor="@color/whity_gray"
             android:textSize="12sp" />
     </LinearLayout>
@@ -138,8 +134,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_alignParentRight="true"
+        android:layout_marginEnd="5dp"
+        android:layout_alignParentEnd="true"
         android:background="@drawable/sender_messages_layout"
         android:orientation="vertical"
         android:padding="7dp">
@@ -157,10 +153,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:paddingLeft="30dp"
-            android:paddingRight="10dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="3dp"
-            android:text="00:00"
+            android:text="@string/_00_00"
             android:textColor="@color/whity_gray"
             android:textSize="12sp" />
     </LinearLayout>

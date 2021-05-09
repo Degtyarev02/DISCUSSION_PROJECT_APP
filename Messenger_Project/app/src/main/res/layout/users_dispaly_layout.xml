@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="vertical"
             android:padding="5dp">
 
@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="User_Name"
+                    android:text="@string/username"
                     android:textAlignment="textStart"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:src="@drawable/checkedgreendot"
-                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
                     android:layout_gravity="center_vertical"
                     android:visibility="invisible"/>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/user_profile_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User_Status"
+                android:text="@string/status"
                 android:textSize="16sp"/>
 
             <LinearLayout
@@ -72,9 +72,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:background="@drawable/round"
-                    android:backgroundTint="@color/purple_700"
+                    android:backgroundTint="@color/DarkBlue"
                     android:gravity="center"
-                    android:text="Accept"
+                    android:text="@string/accept"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="14sp"
@@ -84,11 +84,11 @@
                     android:id="@+id/request_cancel_btn"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:background="@drawable/round"
-                    android:backgroundTint="@color/DarkGray"
+                    android:backgroundTint="@color/RedViolet"
                     android:gravity="center"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="14sp"
@@ -99,7 +99,6 @@
 
 
     </LinearLayout>
-
 </RelativeLayout>
 
 

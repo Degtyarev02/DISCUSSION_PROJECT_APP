@@ -46,7 +46,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_alignParentLeft="true"
         android:background="@drawable/round"
         android:backgroundTint="@color/white"
         android:layout_marginTop="10dp"
@@ -58,7 +57,7 @@
             android:id="@+id/send_file_ImageButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical"
             android:src= "@drawable/send_file" />
 
@@ -66,14 +65,14 @@
             android:id="@+id/input_chat_message"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:hint="@string/new_message" />
 
         <ImageView
             android:id="@+id/send_chat_message_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical|end"
             android:background="@android:color/transparent"
             android:src="@drawable/send" />

@@ -79,7 +79,7 @@
         <shape
             android:shape="rectangle">
             <solid
-                android:color="@color/purple_700">
+                android:color="@color/DarkBlue">
 
             </solid>
             <size

@@ -8,9 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.flatdialoglibrary.dialog.FlatDialog;
 import com.example.messenger_project.Adapters.MessageAdapter;
@@ -38,7 +35,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
@@ -105,6 +101,7 @@ public class ChatActivity extends AppCompatActivity {
         Picasso.get().load(messageReceiverImage).placeholder(R.drawable.man_user).into(userProfImage);
 
 
+        //Слушатель на нажатия отправки сообщения
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,11 +112,19 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //Слушатель на нажатия для отправки файлов
         sendFileMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Вызов диалогового окна, где можно выбрать какой тип файла отправить
+                //Image - обычная картинка
+                //Pdf - pdf файл
+                //DOC - документ Microsoft Word
                 FlatDialog flatDialog = new FlatDialog(ChatActivity.this);
                 flatDialog
+                        //Image - обычная картинка
+                        //Pdf - pdf файл
+                        //DOC - документ Microsoft Word
                         .setTitle("Select file")
                         .setFirstButtonText("IMAGE")
                         .setSecondButtonText("PDF")
@@ -127,15 +132,15 @@ public class ChatActivity extends AppCompatActivity {
 
                         .setBackgroundColor(getResources().getColor(R.color.white))
 
-                        .setFirstButtonColor(getResources().getColor(R.color.ReallyGray))
-                        .setSecondButtonColor(getResources().getColor(R.color.purple_700))
-                        .setThirdButtonColor(getResources().getColor(R.color.Gray))
+                        .setFirstButtonColor(getResources().getColor(R.color.Gray))
+                        .setSecondButtonColor(getResources().getColor(R.color.DarkBlue))
+                        .setThirdButtonColor(getResources().getColor(R.color.DarkRed))
 
                         .setFirstButtonTextColor(getResources().getColor(R.color.blackyGray))
                         .setSecondButtonTextColor(getResources().getColor(R.color.whity_gray))
                         .setThirdButtonTextColor(getResources().getColor(R.color.whity_gray))
 
-                        .setTitleColor(getResources().getColor(R.color.purple_700))
+                        .setTitleColor(getResources().getColor(R.color.DarkBlue))
                         .withFirstButtonListner(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -177,19 +182,27 @@ public class ChatActivity extends AppCompatActivity {
         RetrieveMessageList();
     }
 
+
+    //Функция вывзвается после выбора файла с системы
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Вызов progress dialog для отслеживания выполнения процесса
         catProgressDialog.show(getSupportFragmentManager(), "");
 
         if (requestCode == 5 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            //Получить ссылку на выбранный файл
             fileURI = data.getData();
 
+            //Если выбранный файл  не картинка
             if (!selectedFileType.equals("image")) {
+
+                //Получить ссылку на хранилище FireBase
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Document Files");
+
+                //Получить ссылку на текущее сообщение и идентификатор сообщения
                 DatabaseReference userMessageKeyRef = RootRef.child("Messages")
                         .child(currentUserId).child(messageReceiverID).push();
-
                 String messagePushId = userMessageKeyRef.getKey();
 
                 StorageReference filePath = storageReference.child(messagePushId + "." + selectedFileType);
@@ -211,13 +224,16 @@ public class ChatActivity extends AppCompatActivity {
                                 messageTextBody.put("messageID", messagePushId);
                                 messageTextBody.put("time", saveCurrentTime);
 
+                                //Добавить ассоциативный массив объекта "Сообщение" в базу данных сообщений от отправителя к получателю
                                 userMessageKeyRef.updateChildren(messageTextBody).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                             catProgressDialog.setBackgroundColor(getResources().getColor(R.color.purple_700));
+                                             catProgressDialog.setBackgroundColor(getResources().getColor(R.color.DarkBlue));
                                              catProgressDialog.dismiss();
                                     }
                                 });
+
+                                //Добавить ассоциативный массив объекта "Сообщение" в базу данных сообщений от получателя к отправителю
                                 DatabaseReference receiver_to_sender_message = RootRef.child("Messages").child(messageReceiverID)
                                         .child(currentUserId).child(messagePushId);
                                 receiver_to_sender_message.updateChildren(messageTextBody);
@@ -227,14 +243,13 @@ public class ChatActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-
-
                                 catProgressDialog.dismiss();
                                 Toasty.error(ChatActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
                             }
                         });
                     }
                 });
+                //Если выбранный файл - картинка
             } else if (selectedFileType.equals("image")) {
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Image Files");
 
@@ -245,6 +260,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 StorageReference filePath = storageReference.child(messagePushId + "." + "jpg");
                 uploadTask = filePath.putFile(fileURI);
+
                 uploadTask.continueWithTask(new Continuation() {
                     @Override
                     public Object then(@NonNull Task task) throws Exception {
@@ -289,8 +305,8 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    //Функция заполняет сообщениями RecyclerView
     private void RetrieveMessageList() {
-
         RootRef.child("Messages").child(currentUserId).child(messageReceiverID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -349,6 +365,7 @@ public class ChatActivity extends AppCompatActivity {
         displayLastSeen();
     }
 
+    //Инициализация полей активности и action bar
     private void InitializeControllers() {
         chatToolBar = findViewById(R.id.chat_toolbar);
         setSupportActionBar(chatToolBar);
@@ -403,7 +420,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-
+    //Добавление сообщения в базу данных
     private void SendMessage() {
         String messagetext = messageInputText.getText().toString();
         if (!TextUtils.isEmpty(messagetext)) {
@@ -413,6 +430,8 @@ public class ChatActivity extends AppCompatActivity {
                     .child(currentUserId).child(messageReceiverID).push();
             String messagePushId = userMessageKeyRef.getKey();
 
+            //Создание ассоциативного массива, с помошью которого можно будет добавить объект
+            //"сообщение" в базу данных
             Map<String, Object> messageTextBody = new HashMap<>();
             messageTextBody.put("message", messagetext);
             messageTextBody.put("filename", "text Message");
@@ -423,14 +442,18 @@ public class ChatActivity extends AppCompatActivity {
             messageTextBody.put("messageID", messagePushId);
             messageTextBody.put("time", saveCurrentTime);
 
+            //Добавить сообщение в базу данных
             userMessageKeyRef.updateChildren(messageTextBody);
-            DatabaseReference receiver_to_sender_message = RootRef.child("Messages").child(messageReceiverID).child(currentUserId).child(messagePushId);
+            DatabaseReference receiver_to_sender_message = RootRef.child("Messages")
+                    .child(messageReceiverID).child(currentUserId).child(messagePushId);
             receiver_to_sender_message.child(messagePushId);
             receiver_to_sender_message.updateChildren(messageTextBody);
             messageInputText.setText("");
         }
     }
 
+
+    //Вызов функции, которая показывает статус пользователя
     private void displayLastSeen() {
 
         HashMap<String, Object> onlineStatus = new HashMap<>();
@@ -443,6 +466,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("userState").hasChild("State")) {
+                    //считать данные пользователя, принимающего сообщения, чтобы установить онлайн он или нет
                     String state = snapshot.child("userState").child("State").getValue().toString();
                     String date = snapshot.child("userState").child("Date").getValue().toString();
                     String time = snapshot.child("userState").child("Time").getValue().toString();

@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="User_Name"
+                    android:text="@string/username"
                     android:textAlignment="textStart"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -59,9 +59,8 @@
                 android:id="@+id/user_profile_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User_Status"
+                android:text="@string/status"
                 android:textSize="16sp"/>
-
         </LinearLayout>
 
     </LinearLayout>

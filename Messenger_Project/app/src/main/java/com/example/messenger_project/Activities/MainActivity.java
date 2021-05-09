@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -29,7 +28,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -132,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Creating option menu
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -172,12 +168,12 @@ public class MainActivity extends AppCompatActivity {
                 .setFirstButtonText("Create")
                 .setSecondButtonText("Cancel")
                 .setBackgroundColor(getResources().getColor(R.color.white))
-                .setFirstButtonColor(getResources().getColor(R.color.purple_700))
+                .setFirstButtonColor(getResources().getColor(R.color.DarkBlue))
                 .setFirstButtonTextColor(getResources().getColor(R.color.whity_gray))
-                .setSecondButtonColor(getResources().getColor(R.color.Gray))
+                .setSecondButtonColor(getResources().getColor(R.color.DarkRed))
                 .setSecondButtonTextColor(getResources().getColor(R.color.whity_gray))
-                .setTitleColor(getResources().getColor(R.color.purple_700))
-                .setFirstTextFieldBorderColor(getResources().getColor(R.color.Gray))
+                .setTitleColor(getResources().getColor(R.color.DarkBlue))
+                .setFirstTextFieldBorderColor(getResources().getColor(R.color.DarkRed))
                 .setFirstTextFieldTextColor(getResources().getColor(R.color.blackyGray))
                 .setFirstTextFieldHintColor(getResources().getColor(R.color.blackyGray))
                 .withFirstButtonListner(new View.OnClickListener() {

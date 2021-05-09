@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Messenger_Project" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/Red</item>
+        <item name="colorPrimaryVariant">@color/DarkBlue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#FF5722</item>
@@ -12,8 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorControlNormal">@color/DarkGray</item>
-        <item name="colorControlActivated">@color/purple_700</item>
+        <item name="colorControlNormal">@color/RedViolet</item>
+        <item name="colorControlActivated">@color/DarkBlue</item>
         <item name="fontFamily"> @font/montserratregular </item>
     </style>
 

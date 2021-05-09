@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import com.example.flatdialoglibrary.dialog.FlatDialog;
 import com.example.messenger_project.R;
 import com.ortiz.touchview.TouchImageView;
+import com.roger.catloadinglibrary.CatLoadingView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
