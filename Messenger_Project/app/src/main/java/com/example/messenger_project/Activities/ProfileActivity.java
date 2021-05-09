@@ -224,7 +224,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                                        sendMessage.setEnabled(true);
                                                                        currentState = "new";
                                                                        sendMessage.setText("Send Message");
-                                                                       DeclineReqBtn.setVisibility(View.INVISIBLE);
+                                                                       DeclineReqBtn.setVisibility(View.GONE);
                                                                        DeclineReqBtn.setEnabled(false);
                                                                    }
                                                                }

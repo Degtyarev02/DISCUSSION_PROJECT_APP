@@ -23,6 +23,7 @@ import com.example.messenger_project.Adapters.MessageAdapter;
 import com.example.messenger_project.Messages;
 import com.example.messenger_project.R;
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -269,7 +270,6 @@ public class ChatActivity extends AppCompatActivity {
 
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
@@ -286,12 +286,7 @@ public class ChatActivity extends AppCompatActivity {
                             messageTextBody.put("messageID", messagePushId);
                             messageTextBody.put("time", saveCurrentTime);
 
-                            userMessageKeyRef.updateChildren(messageTextBody).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    catProgressDialog.dismiss();
-                                }
-                            });
+                            userMessageKeyRef.updateChildren(messageTextBody); catProgressDialog.dismiss();
 
                             DatabaseReference receiver_to_sender_message = RootRef.child("Messages").child(messageReceiverID)
                                     .child(currentUserId).child(messagePushId);
@@ -302,6 +297,9 @@ public class ChatActivity extends AppCompatActivity {
             } else {
                 Toasty.error(this, "Nothing selected", Toasty.LENGTH_SHORT).show();
             }
+        }
+        else {
+            catProgressDialog.dismiss();
         }
     }
 
