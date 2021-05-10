@@ -19,6 +19,7 @@ import com.example.messenger_project.Contacts;
 import com.example.messenger_project.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -30,11 +31,16 @@ public class FindFriendsActivity extends AppCompatActivity
     private Toolbar mToolbar;
     private RecyclerView findFriendsRV;
     private DatabaseReference usersRef;
+    private FirebaseAuth mAuth;
+    private String currentUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_friends);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUserID = mAuth.getCurrentUser().getUid();
 
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
