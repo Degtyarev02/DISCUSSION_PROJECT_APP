@@ -66,6 +66,10 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toasty.error(ProfileActivity.this, "Error", Toasty.LENGTH_SHORT).show();
                             }
                         }
+                        else
+                        {
+                            Toasty.warning(ProfileActivity.this, "User hasn't added an account", Toasty.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
