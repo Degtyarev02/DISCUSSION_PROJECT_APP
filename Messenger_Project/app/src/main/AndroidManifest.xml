@@ -16,7 +16,8 @@
         android:theme="@style/Theme.Messenger_Project">
         <activity android:name=".Activities.ShowImageActivity">
         </activity>
-        <activity android:name=".Activities.LogoActivity">
+        <activity android:name=".Activities.LogoActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,21 +27,26 @@
             android:name=".Activities.ChatActivity"
             android:parentActivityName=".Activities.MainActivity">
         </activity>
-        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.ProfileActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.FindFriendsActivity"
             android:parentActivityName=".Activities.MainActivity" />
-        <activity android:name=".Activities.PhoneLoginActivity" />
+        <activity android:name=".Activities.PhoneLoginActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.GroupChatActivity"
             android:parentActivityName=".Activities.MainActivity" />
         <activity
             android:name=".Activities.SettingsActivity"
-            android:parentActivityName=".Activities.MainActivity">
+            android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.RegisterActivity" />
+        <activity android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.RegisterActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

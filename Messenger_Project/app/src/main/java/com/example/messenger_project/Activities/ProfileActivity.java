@@ -238,7 +238,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                                     sendMessage.setEnabled(true);
                                                                     currentState = "friends";
                                                                     sendMessage.setText("Remove contact");
-                                                                    DeclineReqBtn.setVisibility(View.INVISIBLE);
+                                                                    DeclineReqBtn.setVisibility(View.GONE);
                                                                     DeclineReqBtn.setEnabled(false);
                                                                 }
                                                             });
@@ -269,7 +269,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                                                               sendMessage.setEnabled(true);
                                                                                               currentState = "new";
                                                                                               sendMessage.setText("Send Message");
-                                                                                              DeclineReqBtn.setVisibility(View.INVISIBLE);
+                                                                                              DeclineReqBtn.setVisibility(View.GONE);
                                                                                               DeclineReqBtn.setEnabled(false);
                                                                                           }
                                                                                       }
@@ -298,7 +298,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                 sendMessage.setEnabled(true);
                                                 currentState = "request_send";
                                                 sendMessage.setText("Cancel Chat request");
-                                                DeclineReqBtn.setVisibility(View.INVISIBLE);
+                                                DeclineReqBtn.setVisibility(View.GONE);
                                                 DeclineReqBtn.setEnabled(false);
                                             }
                                         }
