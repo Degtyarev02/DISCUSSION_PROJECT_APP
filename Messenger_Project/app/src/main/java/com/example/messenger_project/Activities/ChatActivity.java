@@ -48,6 +48,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
@@ -465,9 +466,9 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("userState").hasChild("State")) {
                     //считать данные пользователя, принимающего сообщения, чтобы установить онлайн он или нет
-                    String state = snapshot.child("userState").child("State").getValue().toString();
-                    String date = snapshot.child("userState").child("Date").getValue().toString();
-                    String time = snapshot.child("userState").child("Time").getValue().toString();
+                    String state = Objects.requireNonNull(snapshot.child("userState").child("State").getValue()).toString();
+                    String date = Objects.requireNonNull(snapshot.child("userState").child("Date").getValue()).toString();
+                    String time = Objects.requireNonNull(snapshot.child("userState").child("Time").getValue()).toString();
 
                     if (state.equals("online")) {
                         userLastSeen.setText("Online");
