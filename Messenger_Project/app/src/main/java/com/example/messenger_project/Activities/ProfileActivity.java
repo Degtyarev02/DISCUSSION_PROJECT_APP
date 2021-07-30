@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Set;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 
@@ -65,9 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
                             } catch (ActivityNotFoundException e) {
                                 Toasty.error(ProfileActivity.this, "Error", Toasty.LENGTH_SHORT).show();
                             }
-                        }
-                        else
-                        {
+                        } else {
                             Toasty.warning(ProfileActivity.this, "User hasn't added an account", Toasty.LENGTH_SHORT).show();
                         }
                     }
@@ -94,7 +94,13 @@ public class ProfileActivity extends AppCompatActivity {
                     String Set_userStatus = snapshot.child("status").getValue().toString();
 
                     Picasso.get().load(userImage).placeholder(R.drawable.man).into(profileImage);
-                    userName.setText(Set_userName);
+
+                    String[] shortName = Set_userName.split(" ");
+                    if (shortName.length == 1) {
+                        userName.setText(Set_userName);
+                    } else {
+                        userName.setText(shortName[0] + " " + shortName[1].substring(0, 1) + ".");
+                    }
                     userStatus.setText(Set_userStatus);
 
                     ManageChatRequest();
